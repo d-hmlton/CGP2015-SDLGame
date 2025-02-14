@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include "SDL.H" //sdl2
-#include "MyWindow.h"
+#include "Window.h"
+#include "RNG.h" //Used for Task 5
 
 using namespace std;
 
@@ -14,36 +15,29 @@ int main(int argc, char *argv[])
         return 1;
 
     //Create a window
-    MyWindow window(
+    Window window(
         "Dylan [27599488]",         // title
         SDL_WINDOWPOS_CENTERED,     // x position
         SDL_WINDOWPOS_CENTERED,     // y position
         800, 600,                   // width, height
         SDL_WINDOW_RESIZABLE);      // flags
 
-    //Task 4 - Draw blue 10x10 grid at center
-    //Defining variables
-    int squareWidth = 50; int squareHeight = 50; //Setting the grid square size
-    int centreX = window.getWidth() / 2;   //Defining these two here for efficiency; repeatedly
-    int centreY = window.getHeight() / 2; // asking for this value would waste a lot of resources
+    //Task 5 - Generate 1000 random lines
+    RNG rng; //Creates an RNG (random number generation) object
+    int windowWidth = window.getWidth(); int windowHeight = window.getHeight(); //Fetches window props
 
-    //Preparing SDL state for grid drawing
-    window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen
-    window.setColour(0, 0, 255, 255); //Set SDL colour to blue
+    for (int i = 0; i < 1000; i++) {
+        //Randomises colour and "thickness" (alpha) state
+        window.setColour(rng.numberRNG(0, 255), rng.numberRNG(0, 255),  //red, green
+            rng.numberRNG(0, 255), rng.numberRNG(0, 255));              //blue, alpha
 
-    //Grid drawing loop
-    for (int yOffset = 0; yOffset < 10; yOffset++) {
-        for (int xOffset = 0; xOffset < 10; xOffset++) {
-            window.drawSquare(
-                centreX - (squareWidth * 5) + (squareWidth * xOffset),      // x position
-                centreY - (squareHeight * 5) + (squareHeight * yOffset),    // y position
-                squareWidth, squareHeight);                                 // width, height
-        }
+        //Draws line at random coordinates
+        window.drawLine(rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight),  //x1 and y1
+            rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight) );            //x2 and y2
     }
 
-    //Presenting grid
+    //Displays lines
     window.presentToScreen();
-
 
     //Waits 4.2 seconds
     SDL_Delay(4200);
