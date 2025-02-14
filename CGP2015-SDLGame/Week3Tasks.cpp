@@ -103,3 +103,32 @@ window.drawRectangle(rectX, rectY, rectWidth, rectHeight); //The outline
 
 window.presentToScreen();
 */
+
+/*
+//Task 8 - Grid of squares, with a gradient
+//Reusing some Task 4 code here, due to the similarity
+int rectangleWidth = 50; int rectangleHeight = 50; //Setting the grid rectangle size
+int centreX = window.getWidth() / 2;   //Defining these two here for efficiency; repeatedly
+int centreY = window.getHeight() / 2; // asking for this value would waste a lot of resources
+
+double gradientMultiplier = 255 / 11;
+
+//Preparing SDL state for grid drawing
+window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen
+
+//Grid drawing loop
+for (int yOffset = 0; yOffset < 5; yOffset++) {
+    for (int xOffset = 0; xOffset < 5; xOffset++) {
+        int blueShade = 255 - ((xOffset + yOffset) * gradientMultiplier);
+
+        window.setColour(0, 0, blueShade, 255); //Set SDL colour to (a shade of) blue
+        window.drawRectangle(
+            centreX - (rectangleWidth * 2.5) + (rectangleWidth * xOffset),        // x position
+            centreY - (rectangleHeight * 2.5) + (rectangleHeight * yOffset),      // y position
+            rectangleWidth - 3, rectangleHeight - 3, true);                     // width, height
+    }
+}
+
+//Presenting grid
+window.presentToScreen();
+*/

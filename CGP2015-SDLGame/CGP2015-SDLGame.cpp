@@ -22,22 +22,31 @@ int main(int argc, char *argv[])
         800, 600,                   // width, height
         SDL_WINDOW_RESIZABLE);      // flags
 
-    //Task 7 - Create a filled rectangle with a differently coloured border
-    window.setColour(255, 255, 255, 255); window.clearScreen(); //White screen
-    
-    //Setting rectangle properties
-    int rectWidth = 100; int rectHeight = 200;
-    int rectX = (window.getWidth() / 2) - (rectWidth / 2);
-    int rectY = (window.getHeight() / 2) - (rectHeight / 2);
+    //Task 8 - Grid of squares, with a gradient
+    //Reusing some Task 4 code here, due to the similarity
+    int rectangleWidth = 50; int rectangleHeight = 50; //Setting the grid rectangle size
+    int centreX = window.getWidth() / 2;   //Defining these two here for efficiency; repeatedly
+    int centreY = window.getHeight() / 2; // asking for this value would waste a lot of resources
 
-    //Drawing the filled rectangle
-    window.setColour(128, 128, 128, 255); //Grey fill
-    window.drawRectangle(rectX, rectY, rectWidth, rectHeight, true); //The filled rectangle
+    double gradientMultiplier = 255 / 11;
 
-    //Drawing outline on top
-    window.setColour(0, 0, 0, 255); //Black outline
-    window.drawRectangle(rectX, rectY, rectWidth, rectHeight); //The outline
+    //Preparing SDL state for grid drawing
+    window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen
 
+    //Grid drawing loop
+    for (int yOffset = 0; yOffset < 5; yOffset++) {
+        for (int xOffset = 0; xOffset < 5; xOffset++) {
+            int blueShade = 255 - ((xOffset + yOffset) * gradientMultiplier);
+
+            window.setColour(0, 0, blueShade, 255); //Set SDL colour to (a shade of) blue
+            window.drawRectangle(
+                centreX - (rectangleWidth * 2.5) + (rectangleWidth * xOffset),        // x position
+                centreY - (rectangleHeight * 2.5) + (rectangleHeight * yOffset),      // y position
+                rectangleWidth - 3, rectangleHeight - 3, true);                     // width, height
+        }
+    }
+
+    //Presenting grid
     window.presentToScreen();
 
     //Waits 4.2 seconds
