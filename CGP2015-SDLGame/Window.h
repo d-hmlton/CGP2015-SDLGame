@@ -40,11 +40,17 @@ public:
         SDL_RenderDrawLine(_renderer, x1, y1, x2, y2);
     }
 
-    void drawSquare(int x, int y, int width, int height) {
-        SDL_Rect square;
-        square.x = x; square.y = y; //Setting coordinates
-        square.w = width; square.h = height; //Setting height
-        SDL_RenderDrawRect(_renderer, &square);
+    void drawRectangle(int x, int y, int width, int height, bool fill = false) {
+        SDL_Rect rectangle;
+        rectangle.x = x; rectangle.y = y; //Setting coordinates
+        rectangle.w = width; rectangle.h = height; //Setting height
+        if (fill == false) {
+            SDL_RenderDrawRect(_renderer, &rectangle);
+        }
+        else {
+            SDL_RenderFillRect(_renderer, &rectangle);
+        }
+        
     }
 
     //Method to draw a triangle in memory

@@ -22,21 +22,13 @@ int main(int argc, char *argv[])
         800, 600,                   // width, height
         SDL_WINDOW_RESIZABLE);      // flags
 
-    //Task 5 - Generate 1000 random lines
-    RNG rng; //Creates an RNG (random number generation) object
-    int windowWidth = window.getWidth(); int windowHeight = window.getHeight(); //Fetches window props
-
-    for (int i = 0; i < 1000; i++) {
-        //Randomises colour and "thickness" (alpha) state
-        window.setColour(rng.numberRNG(0, 255), rng.numberRNG(0, 255),  //red, green
-            rng.numberRNG(0, 255), rng.numberRNG(0, 255));              //blue, alpha
-
-        //Draws line at random coordinates
-        window.drawLine(rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight),  //x1 and y1
-            rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight) );            //x2 and y2
-    }
-
-    //Displays lines
+    //Task 6 - Draw a filled rectangle
+    window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen
+    window.setColour(255, 255, 255, 255);
+    window.drawRectangle(
+        window.getWidth() / 2 - 50, window.getHeight() / 2 - 100,   //x and y - this puts the rectangle at the centre
+        100, 200,                                                   //width, height
+        true);                                                      //"should this be a filled rectangle?" "[yes]"
     window.presentToScreen();
 
     //Waits 4.2 seconds

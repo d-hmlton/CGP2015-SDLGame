@@ -30,7 +30,7 @@ window.presentToScreen();
 /*
 //Task 4 - Draw blue 10x10 grid at center
 //Defining variables
-int squareWidth = 50; int squareHeight = 50; //Setting the grid square size
+int rectangleWidth = 50; int rectangleHeight = 50; //Setting the grid rectangle size
 int centreX = window.getWidth() / 2;   //Defining these two here for efficiency; repeatedly
 int centreY = window.getHeight() / 2; // asking for this value would waste a lot of resources
 
@@ -41,10 +41,10 @@ window.setColour(0, 0, 255, 255); //Set SDL colour to blue
 //Grid drawing loop
 for (int yOffset = 0; yOffset < 10; yOffset++) {
     for (int xOffset = 0; xOffset < 10; xOffset++) {
-        window.drawSquare(
-            centreX - (squareWidth * 5) + (squareWidth * xOffset),      // x position
-            centreY - (squareHeight * 5) + (squareHeight * yOffset),    // y position
-            squareWidth, squareHeight);                                 // width, height
+        window.drawRectangle(
+            centreX - (rectangleWidth * 5) + (rectangleWidth * xOffset),      // x position
+            centreY - (rectangleHeight * 5) + (rectangleHeight * yOffset),    // y position
+            rectangleWidth, rectangleHeight);                                 // width, height
     }
 }
 
@@ -55,6 +55,7 @@ window.presentToScreen();
 
 /*
 //Task 5 - Generate 1000 random lines
+window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen
 RNG rng; //Creates an RNG (random number generation) object
 int windowWidth = window.getWidth(); int windowHeight = window.getHeight(); //Fetches window props
 
@@ -67,4 +68,18 @@ for (int i = 0; i < 1000; i++) {
     window.drawLine(rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight),  //x1 and y1
         rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight) );            //x2 and y2
 }
+
+//Displays lines
+window.presentToScreen();
+*/
+
+/*
+//Task 6 - Draw a filled rectangle
+window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen
+window.setColour(255, 255, 255, 255);
+window.drawRectangle(
+    window.getWidth() / 2 - 50, window.getHeight() / 2 - 100,   //x and y - this puts the rectangle at the centre
+    100, 200,                                                   //width, height
+    true);                                                      //"should this be a filled rectangle?" "[yes]"
+window.presentToScreen();
 */
