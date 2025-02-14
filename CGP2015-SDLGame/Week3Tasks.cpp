@@ -83,3 +83,23 @@ window.drawRectangle(
     true);                                                      //"should this be a filled rectangle?" "[yes]"
 window.presentToScreen();
 */
+
+/*
+//Task 7 - Create a filled rectangle with a differently coloured border
+window.setColour(255, 255, 255, 255); window.clearScreen(); //White screen
+
+//Setting rectangle properties
+int rectWidth = 100; int rectHeight = 200;
+int rectX = (window.getWidth() / 2) - (rectWidth / 2);
+int rectY = (window.getHeight() / 2) - (rectHeight / 2);
+
+//Drawing the filled rectangle
+window.setColour(128, 128, 128, 255); //Grey fill
+window.drawRectangle(rectX, rectY, rectWidth, rectHeight, true); //The filled rectangle
+
+//Drawing outline on top
+window.setColour(0, 0, 0, 255); //Black outline
+window.drawRectangle(rectX, rectY, rectWidth, rectHeight); //The outline
+
+window.presentToScreen();
+*/
