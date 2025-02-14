@@ -18,34 +18,31 @@ int main(int argc, char *argv[])
         "Dylan [27599488]",         // title
         SDL_WINDOWPOS_CENTERED,     // x position
         SDL_WINDOWPOS_CENTERED,     // y position
-        800,                        // width
-        600,                        // height
+        800, 600,                   // width, height
         SDL_WINDOW_RESIZABLE);      // flags
 
-    /*
-    //Task 1 - Making the screen blue
-    window.setColour(0, 0, 255, 255); //Sets SDL's colour as blue - RGB as first three, then alpha
-    window.clearScreen(); //Creates the idea of a blue screen in memory
-    window.presentToScreen(); //Presents that idea on the computer screen
-    */
-
-    /*
-    //Task 2 - Draw white rectangle
-    window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen (no need to present yet!)
-    window.setColour(255, 255, 255, 255); //Sets SDL's colour to white
-    window.drawTriangle(); //Calls the draw triangle method
-    window.presentToScreen(); //Presents the triangle (& black screen behind it) onscreen
-    */
-
-    /*
-    //Task 3 - Draw purple line
-    window.setColour(255, 255, 255, 255); window.clearScreen(); //White screen
-    window.setColour(128, 0, 128, 255); //Sets SDL's colour to purple
-    window.drawLine(0, 0, window.getWidth(), window.getHeight());
-    window.presentToScreen();
-    */
-
     //Task 4 - Draw blue 10x10 grid at center
+    //Defining variables
+    int squareWidth = 50; int squareHeight = 50; //Setting the grid square size
+    int centreX = window.getWidth() / 2;   //Defining these two here for efficiency; repeatedly
+    int centreY = window.getHeight() / 2; // asking for this value would waste a lot of resources
+
+    //Preparing SDL state for grid drawing
+    window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen
+    window.setColour(0, 0, 255, 255); //Set SDL colour to blue
+
+    //Grid drawing loop
+    for (int yOffset = 0; yOffset < 10; yOffset++) {
+        for (int xOffset = 0; xOffset < 10; xOffset++) {
+            window.drawSquare(
+                centreX - (squareWidth * 5) + (squareWidth * xOffset),      // x position
+                centreY - (squareHeight * 5) + (squareHeight * yOffset),    // y position
+                squareWidth, squareHeight);                                 // width, height
+        }
+    }
+
+    //Presenting grid
+    window.presentToScreen();
 
 
     //Waits 4.2 seconds

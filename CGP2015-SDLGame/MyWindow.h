@@ -40,6 +40,13 @@ class MyWindow {
             SDL_RenderDrawLine(_renderer, x1, y1, x2, y2);
         }
 
+        void drawSquare(int x, int y, int width, int height) {
+            SDL_Rect square;
+            square.x = x; square.y = y; //Setting coordinates
+            square.w = width; square.h = height; //Setting height
+            SDL_RenderDrawRect(_renderer, &square);
+        }
+
         //Method to draw a triangle in memory
         void drawTriangle() {
             //Creates a SDL_Point array with 4 points
