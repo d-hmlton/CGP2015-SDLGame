@@ -6,7 +6,50 @@
 #include "Window.h"
 #include "RNG.h" //Used for Task 5
 
+//Global values for the game loop
+#include "SZ_Timer.h"
+SZ_Timer aTimer;
+const float DELTA_TIME = 33.33f; //How many milliseconds each frame is allowed
+bool done = false;
+
+//Globally creates objects so they can be used throughout
+Window* window;
+RNG rng; //Creates an RNG (random number generation) object
+
 using namespace std;
+
+void Input() {}
+
+void Update()
+{
+    //Task 5 - Generate 1000 random lines
+    window->setColour(0, 0, 0, 255); window->clearScreen(); //Black screen
+    RNG rng; 
+    int windowWidth = window->getWidth(); int windowHeight = window->getHeight(); //Fetches window props
+
+    for (int i = 0; i < 1000; i++) {
+        //Randomises colour and "thickness" (alpha) state
+        window->setColour(rng.numberRNG(0, 255), rng.numberRNG(0, 255),  //red, green
+            rng.numberRNG(0, 255), rng.numberRNG(0, 255));              //blue, alpha
+
+        //Draws line at random coordinates
+        window->drawLine(rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight),  //x1 and y1
+            rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight));            //x2 and y2
+    }
+}
+
+void Render()
+{
+    //Displays lines
+    window->presentToScreen();
+}
+
+void CleanUp()
+{
+    delete &window;
+    delete &rng;
+    SDL_Quit();
+}
 
 int main(int argc, char *argv[])
 {
@@ -15,42 +58,30 @@ int main(int argc, char *argv[])
         return 1;
 
     //Create a window
-    Window window(
+    window = new Window(
         "Dylan [27599488]",         // title
         SDL_WINDOWPOS_CENTERED,     // x position
         SDL_WINDOWPOS_CENTERED,     // y position
         800, 600,                   // width, height
         SDL_WINDOW_RESIZABLE);      // flags
 
-    //Task 8 - Grid of squares, with a gradient
-    //Reusing some Task 4 code here, due to the similarity
-    int rectangleWidth = 50; int rectangleHeight = 50; //Setting the grid rectangle size
-    int centreX = window.getWidth() / 2;   //Defining these two here for efficiency; repeatedly
-    int centreY = window.getHeight() / 2; // asking for this value would waste a lot of resources
+    while (done == false)
+    {
+        //use home made timer provided by Olivier
+        aTimer.resetTicksTimer(); // resets a frame timer to zero
 
-    double gradientMultiplier = 255 / 11;
+        Input();
+        Update();
+        Render();
 
-    //Preparing SDL state for grid drawing
-    window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen
-
-    //Grid drawing loop
-    for (int yOffset = 0; yOffset < 5; yOffset++) {
-        for (int xOffset = 0; xOffset < 5; xOffset++) {
-            int blueShade = 255 - ((xOffset + yOffset) * gradientMultiplier);
-
-            window.setColour(0, 0, blueShade, 255); //Set SDL colour to (a shade of) blue
-            window.drawRectangle(
-                centreX - (rectangleWidth * 2.5) + (rectangleWidth * xOffset),        // x position
-                centreY - (rectangleHeight * 2.5) + (rectangleHeight * yOffset),      // y position
-                rectangleWidth - 3, rectangleHeight - 3, true);                     // width, height
+        // if less time has passed than allocated block, wait difference
+        if (aTimer.getTicks() < DELTA_TIME)
+        {
+            //SDL_Delay(DELTA_TIME - aTimer.getTicks());
         }
     }
 
-    //Presenting grid
-    window.presentToScreen();
-
-    //Waits 4.2 seconds
-    SDL_Delay(4200);
+    CleanUp();
 
     return 0;
 }

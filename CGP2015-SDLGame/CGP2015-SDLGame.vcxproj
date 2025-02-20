@@ -128,12 +128,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CGP2015-SDLGame.cpp" />
+    <ClCompile Include="RNG.cpp" />
+    <ClCompile Include="SZ_Timer.cpp" />
     <ClCompile Include="Week3Tasks.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SZ_Timer.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="RNG.h" />
   </ItemGroup>
