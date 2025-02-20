@@ -1,6 +1,12 @@
 // CGP2015-SDL2Game : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+
+// ADD SRAND !
+
+
+
+
 #include <iostream>
 #include "SDL.H" //sdl2
 #include "Window.h"
@@ -23,7 +29,7 @@ void Input() {}
 void Update()
 {
     //Task 5 - Generate 1000 random lines
-    window->setColour(0, 0, 0, 255); window->clearScreen(); //Black screen
+    window->setColour(0, 0, 0, 255); //window->clearScreen(); //Black screen
     RNG rng; 
     int windowWidth = window->getWidth(); int windowHeight = window->getHeight(); //Fetches window props
 
@@ -77,7 +83,7 @@ int main(int argc, char *argv[])
         // if less time has passed than allocated block, wait difference
         if (aTimer.getTicks() < DELTA_TIME)
         {
-            //SDL_Delay(DELTA_TIME - aTimer.getTicks());
+            SDL_Delay(DELTA_TIME - aTimer.getTicks());
         }
     }
 
