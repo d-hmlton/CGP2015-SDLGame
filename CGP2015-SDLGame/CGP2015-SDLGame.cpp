@@ -6,7 +6,6 @@
 
 
 
-
 #include <iostream>
 #include "SDL.H" //sdl2
 #include "Window.h"
