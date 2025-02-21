@@ -23,7 +23,7 @@ public:
     //Method to draw a line onscreen
     void drawLine(int x1, int y1, int x2, int y2);
 
-    void drawRectangle(int x, int y, int width, int height, bool fill = false);
+    void drawRectangle(int x, int y, int width, int height, bool fill);
 
     //Method to draw a triangle in memory
     void drawTriangle();

@@ -131,6 +131,7 @@
     <ClCompile Include="RNG.cpp" />
     <ClCompile Include="SZ_Timer.cpp" />
     <ClCompile Include="Week3Tasks.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

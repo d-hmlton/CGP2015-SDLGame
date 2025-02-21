@@ -14,38 +14,59 @@
 //Global values for the game loop
 #include "SZ_Timer.h"
 SZ_Timer aTimer;
-const float DELTA_TIME = 33.33f; //How many milliseconds each frame is allowed
+const float DELTA_TIME = 66.67f; //How many milliseconds each frame is allowed
 bool done = false;
+
+#define MAX_KEYS (256)
+bool gKeys[MAX_KEYS];
+
+//Global values for the program
+int frames = 0;
+int width = 10; int height = 10;
 
 //Globally creates objects so they can be used throughout
 Window* window;
 RNG rng; //Creates an RNG (random number generation) object
+SDL_Event _event;
 
 using namespace std;
 
-void Input() {}
+void Input()
+{
+    while (SDL_PollEvent(&_event)) {
+        if (_event.type == SDL_QUIT) {
+            done = true;
+        }
+
+        if (_event.type == SDL_KEYDOWN && _event.key.repeat == NULL) {
+            switch (_event.key.keysym.sym) {
+            case SDLK_ESCAPE:
+                done = true;
+                break;
+            case SDLK_w:
+                printf("W has been pressed \n");
+                gKeys[SDLK_w] = true;
+                break;
+            }
+        }
+
+
+    }
+}
 
 void Update()
 {
-    //Task 5 - Generate 1000 random lines
-    window->setColour(0, 0, 0, 255); //window->clearScreen(); //Black screen
-    RNG rng; 
-    int windowWidth = window->getWidth(); int windowHeight = window->getHeight(); //Fetches window props
-
-    for (int i = 0; i < 1000; i++) {
-        //Randomises colour and "thickness" (alpha) state
-        window->setColour(rng.numberRNG(0, 255), rng.numberRNG(0, 255),  //red, green
-            rng.numberRNG(0, 255), rng.numberRNG(0, 255));              //blue, alpha
-
-        //Draws line at random coordinates
-        window->drawLine(rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight),  //x1 and y1
-            rng.numberRNG(0, windowWidth), rng.numberRNG(0, windowHeight));            //x2 and y2
-    }
+    //Drawing a square for every frame 
+    window->setColour(0, 0, 0, 255); window->clearScreen();
+    window->setColour(0, 0, 255, 255);
+    window->drawRectangle(0 + ((frames % (window->getWidth() / width)) * width), 0, width, height, true);
+    frames++; //Increments the frame counter
+    printf("Frames: %d / Time: %.2f \n", frames, (frames * DELTA_TIME) / 1000);
 }
 
 void Render()
 {
-    //Displays lines
+    //Display window
     window->presentToScreen();
 }
 
