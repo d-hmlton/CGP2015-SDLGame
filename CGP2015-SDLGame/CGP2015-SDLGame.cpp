@@ -14,7 +14,7 @@
 //Global values for the game loop
 #include "SZ_Timer.h"
 SZ_Timer aTimer;
-const float DELTA_TIME = 66.67f; //How many milliseconds each frame is allowed
+const float DELTA_TIME = 16.67f; //How many milliseconds each frame is allowed
 bool done = false;
 
 #define MAX_KEYS (256)
@@ -22,7 +22,8 @@ bool gKeys[MAX_KEYS];
 
 //Global values for the program
 int frames = 0;
-int width = 10; int height = 10;
+int width = 50; int height = 50;
+int windowWidth; int windowHeight; //Defined in main
 
 //Globally creates objects so they can be used throughout
 Window* window;
@@ -49,8 +50,6 @@ void Input()
                 break;
             }
         }
-
-
     }
 }
 
@@ -59,7 +58,9 @@ void Update()
     //Drawing a square for every frame 
     window->setColour(0, 0, 0, 255); window->clearScreen();
     window->setColour(0, 0, 255, 255);
-    window->drawRectangle(0 + ((frames % (window->getWidth() / width)) * width), 0, width, height, true);
+    window->drawRectangle(frames * width % windowWidth,             //x pos
+        (frames / (windowWidth / width)) * height % windowHeight,   //y pos
+        width, height, true);
     frames++; //Increments the frame counter
     printf("Frames: %d / Time: %.2f \n", frames, (frames * DELTA_TIME) / 1000);
 }
@@ -72,9 +73,10 @@ void Render()
 
 void CleanUp()
 {
+    SDL_Quit();
     delete &window;
     delete &rng;
-    SDL_Quit();
+    delete &_event;
 }
 
 int main(int argc, char *argv[])
@@ -90,6 +92,9 @@ int main(int argc, char *argv[])
         SDL_WINDOWPOS_CENTERED,     // y position
         800, 600,                   // width, height
         SDL_WINDOW_RESIZABLE);      // flags
+
+    windowWidth = window->getWidth(); 
+    windowHeight = window->getHeight();
 
     while (done == false)
     {
