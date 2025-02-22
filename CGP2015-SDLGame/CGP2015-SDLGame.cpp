@@ -1,11 +1,6 @@
 // CGP2015-SDL2Game : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-
-// ADD SRAND !
-
-
-
 #include <iostream>
 #include "SDL.H" //sdl2
 #include "Window.h"
@@ -15,15 +10,15 @@
 #include "SZ_Timer.h"
 SZ_Timer aTimer;
 const float DELTA_TIME = 16.67f; //How many milliseconds each frame is allowed
-bool done = false;
+bool done = false; int frames;
 
+//Used in Input()
 #define MAX_KEYS (256)
 bool gKeys[MAX_KEYS];
+bool pause = false;
 
-//Global values for the program
-int frames = 0;
-int width = 50; int height = 50;
-int windowWidth; int windowHeight; //Defined in main
+int shapeWidth; int shapeHeight; int windowWidth; int windowHeight; //Defined in Init()
+int xPosCalc; bool bounce = false; int moves; int maxMoves; //Defined / used in Update()
 
 //Globally creates objects so they can be used throughout
 Window* window;
@@ -31,6 +26,26 @@ RNG rng; //Creates an RNG (random number generation) object
 SDL_Event _event;
 
 using namespace std;
+
+//Code ran at the beginning of the program
+void Init() {
+    //Create a window
+    window = new Window(
+        "Dylan [27599488]",         // title
+        SDL_WINDOWPOS_CENTERED,     // x position
+        SDL_WINDOWPOS_CENTERED,     // y position
+        800, 600,                   // width, height
+        SDL_WINDOW_RESIZABLE);      // flags
+
+    shapeWidth = 50;
+    shapeHeight = 50;
+    windowWidth = window->getWidth();
+    windowHeight = window->getHeight();
+    maxMoves = (windowWidth / shapeWidth) - 1;
+
+    window->setColour(0, 0, 0, 255); window->clearScreen();
+    Render();
+}
 
 void Input()
 {
@@ -50,18 +65,43 @@ void Input()
                 break;
             }
         }
+
+        if (_event.type == SDL_KEYUP && _event.key.repeat == NULL) {
+            switch (_event.key.keysym.sym) {
+            case SDLK_w:
+                printf("W has been released \n");
+                gKeys[SDLK_w] = false;
+                break;
+            }
+        }
+    }
+
+    if (gKeys[SDLK_w]) {
+        pause = true;
     }
 }
 
 void Update()
 {
+    //Bounce!
+    if (moves == maxMoves) {
+        bounce = !bounce;
+        moves = 0;
+    }
+    
+    //Bounce calc
+    if (bounce == false) { xPosCalc = ((windowWidth - shapeWidth) - (moves * shapeWidth)); }
+    else { xPosCalc = moves * shapeWidth; }
+
     //Drawing a square for every frame 
     window->setColour(0, 0, 0, 255); window->clearScreen();
     window->setColour(0, 0, 255, 255);
-    window->drawRectangle(frames * width % windowWidth,             //x pos
-        (frames / (windowWidth / width)) * height % windowHeight,   //y pos
-        width, height, true);
+    window->drawRectangle(xPosCalc, //x pos
+        0, //(frames / (windowWidth / width)) * height % windowHeight,  //y pos
+        shapeWidth, shapeHeight, true);
     frames++; //Increments the frame counter
+    moves++; //Increments the move counter
+
     printf("Frames: %d / Time: %.2f \n", frames, (frames * DELTA_TIME) / 1000);
 }
 
@@ -71,6 +111,7 @@ void Render()
     window->presentToScreen();
 }
 
+//Code ran at the end of the program
 void CleanUp()
 {
     SDL_Quit();
@@ -81,20 +122,11 @@ void CleanUp()
 
 int main(int argc, char *argv[])
 {
-    //Initialiser
+    //SDL Initialiser
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         return 1;
 
-    //Create a window
-    window = new Window(
-        "Dylan [27599488]",         // title
-        SDL_WINDOWPOS_CENTERED,     // x position
-        SDL_WINDOWPOS_CENTERED,     // y position
-        800, 600,                   // width, height
-        SDL_WINDOW_RESIZABLE);      // flags
-
-    windowWidth = window->getWidth(); 
-    windowHeight = window->getHeight();
+    Init();
 
     while (done == false)
     {
