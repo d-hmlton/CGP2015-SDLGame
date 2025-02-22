@@ -6,51 +6,145 @@
 #include "Window.h"
 #include "RNG.h" //Used for Task 5
 
+//Global values for the game loop
+#include "SZ_Timer.h"
+SZ_Timer aTimer;
+const float DELTA_TIME = 16.67f; //How many milliseconds each frame is allowed
+bool done = false; int frames;
+
+//Used in Input()
+#define MAX_KEYS (256)
+bool gKeys[MAX_KEYS];
+bool pause = false;
+
+int shapeWidth; int shapeHeight; int windowWidth; int windowHeight; //Defined in Init()
+int xPosCalc; bool bounce = false; int moves; int maxMoves; //Defined / used in Update()
+
+//Globally creates objects so they can be used throughout
+Window* window;
+RNG rng; //Creates an RNG (random number generation) object
+SDL_Event _event;
+
 using namespace std;
 
-int main(int argc, char *argv[])
-{
-    //Initialiser
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-        return 1;
-
+//Code ran at the beginning of the program
+void Init() {
     //Create a window
-    Window window(
+    window = new Window(
         "Dylan [27599488]",         // title
         SDL_WINDOWPOS_CENTERED,     // x position
         SDL_WINDOWPOS_CENTERED,     // y position
         800, 600,                   // width, height
         SDL_WINDOW_RESIZABLE);      // flags
 
-    //Task 8 - Grid of squares, with a gradient
-    //Reusing some Task 4 code here, due to the similarity
-    int rectangleWidth = 50; int rectangleHeight = 50; //Setting the grid rectangle size
-    int centreX = window.getWidth() / 2;   //Defining these two here for efficiency; repeatedly
-    int centreY = window.getHeight() / 2; // asking for this value would waste a lot of resources
+    shapeWidth = 50;
+    shapeHeight = 50;
+    windowWidth = window->getWidth();
+    windowHeight = window->getHeight();
+    maxMoves = (windowWidth / shapeWidth) - 1;
 
-    double gradientMultiplier = 255 / 11;
+    window->setColour(0, 0, 0, 255); window->clearScreen();
+    Render();
+}
 
-    //Preparing SDL state for grid drawing
-    window.setColour(0, 0, 0, 255); window.clearScreen(); //Black screen
+void Input()
+{
+    while (SDL_PollEvent(&_event)) {
+        if (_event.type == SDL_QUIT) {
+            done = true;
+        }
 
-    //Grid drawing loop
-    for (int yOffset = 0; yOffset < 5; yOffset++) {
-        for (int xOffset = 0; xOffset < 5; xOffset++) {
-            int blueShade = 255 - ((xOffset + yOffset) * gradientMultiplier);
+        if (_event.type == SDL_KEYDOWN && _event.key.repeat == NULL) {
+            switch (_event.key.keysym.sym) {
+            case SDLK_ESCAPE:
+                done = true;
+                break;
+            case SDLK_w:
+                printf("W has been pressed \n");
+                gKeys[SDLK_w] = true;
+                break;
+            }
+        }
 
-            window.setColour(0, 0, blueShade, 255); //Set SDL colour to (a shade of) blue
-            window.drawRectangle(
-                centreX - (rectangleWidth * 2.5) + (rectangleWidth * xOffset),        // x position
-                centreY - (rectangleHeight * 2.5) + (rectangleHeight * yOffset),      // y position
-                rectangleWidth - 3, rectangleHeight - 3, true);                     // width, height
+        if (_event.type == SDL_KEYUP && _event.key.repeat == NULL) {
+            switch (_event.key.keysym.sym) {
+            case SDLK_w:
+                printf("W has been released \n");
+                gKeys[SDLK_w] = false;
+                break;
+            }
         }
     }
 
-    //Presenting grid
-    window.presentToScreen();
+    if (gKeys[SDLK_w]) {
+        pause = true;
+    }
+}
 
-    //Waits 4.2 seconds
-    SDL_Delay(4200);
+void Update()
+{
+    //Bounce!
+    if (moves == maxMoves) {
+        bounce = !bounce;
+        moves = 0;
+    }
+    
+    //Bounce calc
+    if (bounce == false) { xPosCalc = ((windowWidth - shapeWidth) - (moves * shapeWidth)); }
+    else { xPosCalc = moves * shapeWidth; }
+
+    //Drawing a square for every frame 
+    window->setColour(0, 0, 0, 255); window->clearScreen();
+    window->setColour(0, 0, 255, 255);
+    window->drawRectangle(xPosCalc, //x pos
+        0, //(frames / (windowWidth / width)) * height % windowHeight,  //y pos
+        shapeWidth, shapeHeight, true);
+    frames++; //Increments the frame counter
+    moves++; //Increments the move counter
+
+    printf("Frames: %d / Time: %.2f \n", frames, (frames * DELTA_TIME) / 1000);
+}
+
+void Render()
+{
+    //Display window
+    window->presentToScreen();
+}
+
+//Code ran at the end of the program
+void CleanUp()
+{
+    SDL_Quit();
+    delete &window;
+    delete &rng;
+    delete &_event;
+}
+
+int main(int argc, char *argv[])
+{
+    //SDL Initialiser
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+        return 1;
+
+    Init();
+
+    while (done == false)
+    {
+        //use home made timer provided by Olivier
+        aTimer.resetTicksTimer(); // resets a frame timer to zero
+
+        Input();
+        Update();
+        Render();
+
+        // if less time has passed than allocated block, wait difference
+        if (aTimer.getTicks() < DELTA_TIME)
+        {
+            SDL_Delay(DELTA_TIME - aTimer.getTicks());
+        }
+    }
+
+    CleanUp();
 
     return 0;
 }
