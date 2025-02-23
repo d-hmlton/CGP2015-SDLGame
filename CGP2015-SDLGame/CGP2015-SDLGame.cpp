@@ -44,7 +44,7 @@ void Init() {
     maxMoves = (windowWidth / shapeWidth) - 1;
 
     window->setColour(0, 0, 0, 255); window->clearScreen();
-    Render();
+    window->presentToScreen();
 }
 
 void Input()
@@ -79,45 +79,45 @@ void Input()
     if (gKeys[SDLK_w]) {
         pause = true;
     }
+    else {
+        pause = false;
+    }
 }
 
 void Update()
 {
+    if (pause == true) {
+        return;
+    }
+    
     //Bounce!
     if (moves == maxMoves) {
         bounce = !bounce;
         moves = 0;
     }
-    
-    //Bounce calc
+    //Bounce-based x position calculator
     if (bounce == false) { xPosCalc = ((windowWidth - shapeWidth) - (moves * shapeWidth)); }
     else { xPosCalc = moves * shapeWidth; }
 
     //Drawing a square for every frame 
     window->setColour(0, 0, 0, 255); window->clearScreen();
     window->setColour(0, 0, 255, 255);
-    window->drawRectangle(xPosCalc, //x pos
-        0, //(frames / (windowWidth / width)) * height % windowHeight,  //y pos
-        shapeWidth, shapeHeight, true);
+    window->drawRectangle(xPosCalc, 0, shapeWidth, shapeHeight, true);
     frames++; //Increments the frame counter
     moves++; //Increments the move counter
-
-    printf("Frames: %d / Time: %.2f \n", frames, (frames * DELTA_TIME) / 1000);
 }
 
 void Render()
 {
     //Display window
     window->presentToScreen();
+    printf("Frames: %d / Time: %.2f \n", frames, (frames * DELTA_TIME) / 1000);
 }
 
 //Code ran at the end of the program
 void CleanUp()
 {
     SDL_Quit();
-    delete &window;
-    delete &rng;
-    delete &_event;
 }
 
 int main(int argc, char *argv[])
