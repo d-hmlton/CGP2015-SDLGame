@@ -41,7 +41,7 @@ void Init() {
     windowWidth = window->getWidth();
     windowHeight = window->getHeight();
 
-    firstShip = new Spaceship(windowWidth, windowHeight, shapeWidth, shapeHeight, 0, 0);
+    firstShip = new Spaceship(window, shapeWidth, shapeHeight, 0, 0);
 
     window->setColour(0, 0, 0, 255); window->clearScreen();
     window->presentToScreen();
@@ -90,20 +90,20 @@ void Update()
         return;
     }
 
-    //Drawing a square for every frame 
-    window->setColour(0, 0, 0, 255); window->clearScreen();
-    window->setColour(0, 0, 255, 255);
-
-    int* move = firstShip->Movement();
-    window->drawRectangle(move[0], move[1], move[2], move[3], true);
-
-    frames++; //Increments the frame counter
+    firstShip->Movement();
 }
 
 void Render()
 {
+    //Drawing a square for every frame 
+    window->setColour(0, 0, 0, 255); window->clearScreen();
+    window->setColour(0, 0, 255, 255);
+
+    firstShip->Render();
+
     //Display window
     window->presentToScreen();
+    frames++; //Increments the frame counter
     printf("Frames: %d / Time: %.2f \n", frames, (frames * DELTA_TIME) / 1000);
 }
 

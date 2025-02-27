@@ -48,12 +48,12 @@ void Window::drawRectangle(int x, int y, int width, int height, bool fill = fals
 void Window::drawTriangle() {
     //Creates a SDL_Point array with 4 points
     SDL_Point* points = new SDL_Point[4];
-    points[0].x = _width / 2 - 50;   points[0].y = _height / 2 + 43.3;
-    points[1].x = _width / 2, points[1].y = _height / 2 - 43.3;
-    points[2].x = _width / 2 + 50;   points[2].y = _height / 2 + 43.3;
+    points[0].x = _width / 2 - 50;   points[0].y = _height / 2 + 43;
+    points[1].x = _width / 2, points[1].y = _height / 2 - 43;
+    points[2].x = _width / 2 + 50;   points[2].y = _height / 2 + 43;
     points[3] = points[0]; //Final point is identical to first point
     //If you're curious about height - the formula for height of an equilateral triangle
-    // is (side × sqrt(3) / 2). With a side of 100, that's 86.6! That's why 50 vs 43.3
+    // is (side × sqrt(3) / 2). With a side of 100, that's 86.6! That's why 50 vs 43.3 (43)
 
     //Draws the triangle in memory
     SDL_RenderDrawLines(_renderer, points, 4);

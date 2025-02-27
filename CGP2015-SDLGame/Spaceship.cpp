@@ -1,7 +1,11 @@
 #include "Spaceship.h"
 
-Spaceship::Spaceship(int screenWidth, int screenHeight, int shipWidth, int shipHeight, int xOffset, int yOffset) {
+Spaceship::Spaceship(Window* window, int shipWidth, int shipHeight, int xOffset, int yOffset) {
 	//Defining parameters
+	_window = window;
+	int screenWidth = _window->getWidth();
+	int screenHeight = _window->getHeight();
+
 	_shipWidth = shipWidth; _shipHeight = shipHeight;
 	_xMovesMax = (screenWidth / shipWidth) - 1;
 	_yMovesMax = (screenHeight / shipHeight) - 1;
@@ -22,8 +26,8 @@ Spaceship::Spaceship(int screenWidth, int screenHeight, int shipWidth, int shipH
 		yOffset = 0;
 	}
 
-	_xMoves = xOffset;
-	_yMoves = yOffset;
+	_xMoves = xOffset; _xPosition = _xMoves * _shipWidth;
+	_yMoves = yOffset; _yPosition = _yMoves * _shipHeight;
 
 	if (_yMoves % 2 == 0) {
 		_bounce = false;
@@ -33,7 +37,7 @@ Spaceship::Spaceship(int screenWidth, int screenHeight, int shipWidth, int shipH
 	}
 }
 
-int* Spaceship::Movement() {
+void Spaceship::Movement() {
 	//Bounce section - this is where _yMoves increases
 	if (_xMoves > _xMovesMax) {
 		_xMoves = 0;
@@ -47,15 +51,13 @@ int* Spaceship::Movement() {
 	}
 
 	//Position calculation section - this is where _xMoves increases
-	int xPosition;
-	if (_bounce == false) { xPosition = _xMoves * _shipWidth; } //Spaceship moving rightwards
-	else { xPosition = (_shipWidth * _xMovesMax) - (_xMoves * _shipWidth); } //Spaceship moving leftwards
-	int yPosition = _shipHeight * _yMoves;
+	if (_bounce == false) { _xPosition = _xMoves * _shipWidth; } //Spaceship moving rightwards
+	else { _xPosition = (_shipWidth * _xMovesMax) - (_xMoves * _shipWidth); } //Spaceship moving leftwards
+	_yPosition = _shipHeight * _yMoves;
 
 	_xMoves++; //Increments x moves for next time
+}
 
-	//Assembles a struct to return the ship values
-	//Based on: [https://stackoverflow.com/questions/321068/returning-multiple-values-from-a-c-function]
-	int move[4] = {xPosition, yPosition, _shipWidth, _shipHeight};
-	return move;
+void Spaceship::Render() {
+	_window->drawRectangle(_xPosition, _yPosition, _shipWidth, _shipHeight, true);
 }
