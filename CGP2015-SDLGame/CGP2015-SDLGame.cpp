@@ -4,11 +4,12 @@
 #include <iostream>
 #include "SDL.H" //sdl2
 #include "Window.h"
+#include "Spaceship.h"
 
 //Global values for the game loop
 #include "SZ_Timer.h"
 SZ_Timer aTimer;
-const float DELTA_TIME = 16.67f; //How many milliseconds each frame is allowed
+const float DELTA_TIME = 500.00f; //How many milliseconds each frame is allowed
 bool done = false; int frames;
 
 //Used in Input()
@@ -17,13 +18,11 @@ bool gKeys[MAX_KEYS];
 bool pause = false;
 
 int shapeWidth; int shapeHeight; int windowWidth; int windowHeight; //Defined in Init()
-bool bounce = false; int xPosCalc; int xMoves; int xMovesMax; //Defined / used in Update()
-int positionCalc[2]; //Array storing the calculations of x and y positions for that Update()
-
 
 //Globally creates objects so they can be used throughout
 Window* window;
 SDL_Event _event;
+Spaceship* firstShip;
 
 using namespace std;
 
@@ -41,7 +40,8 @@ void Init() {
     shapeHeight = 50;
     windowWidth = window->getWidth();
     windowHeight = window->getHeight();
-    xMovesMax = (windowWidth / shapeWidth) - 1;
+
+    firstShip = new Spaceship(windowWidth, windowHeight, shapeWidth, shapeHeight, 0, 0);
 
     window->setColour(0, 0, 0, 255); window->clearScreen();
     window->presentToScreen();
@@ -89,22 +89,15 @@ void Update()
     if (pause == true) {
         return;
     }
-    
-    //Bounce!
-    if (xMoves == xMovesMax) {
-        bounce = !bounce;
-        xMoves = 0;
-    }
-    //Bounce-based x position calculator
-    if (bounce == false) { xPosCalc = ((windowWidth - shapeWidth) - (xMoves * shapeWidth)); }
-    else { xPosCalc = xMoves * shapeWidth; }
 
     //Drawing a square for every frame 
     window->setColour(0, 0, 0, 255); window->clearScreen();
     window->setColour(0, 0, 255, 255);
-    window->drawRectangle(xPosCalc, 0, shapeWidth, shapeHeight, true);
+
+    int* move = firstShip->Movement();
+    window->drawRectangle(move[0], move[1], move[2], move[3], true);
+
     frames++; //Increments the frame counter
-    xMoves++; //Increments the move counter
 }
 
 void Render()

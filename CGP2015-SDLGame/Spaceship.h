@@ -11,5 +11,5 @@ public:
 	//Constructor
 	Spaceship(int screenWidth, int screenHeight, int shipWidth, int shipHeight, int xOffset, int yOffset);
 
-	auto Movement();
+	int* Movement();
 };

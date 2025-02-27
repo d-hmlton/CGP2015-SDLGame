@@ -3,7 +3,7 @@
 Spaceship::Spaceship(int screenWidth, int screenHeight, int shipWidth, int shipHeight, int xOffset, int yOffset) {
 	//Defining parameters
 	_shipWidth = shipWidth; _shipHeight = shipHeight;
-	_xMovesMax = screenWidth / shipWidth;
+	_xMovesMax = (screenWidth / shipWidth) - 1;
 	_yMovesMax = screenHeight / shipHeight;
 
 	int xOverUnderFlow = (screenWidth / shipWidth) * xOffset;
@@ -26,14 +26,14 @@ Spaceship::Spaceship(int screenWidth, int screenHeight, int shipWidth, int shipH
 	_yMoves = yOffset;
 
 	if (_yMoves % 2 == 0) {
-		_bounce == false;
+		_bounce = false;
 	}
-	else if (_yMoves % 2 == 1) {
-		_bounce == true;
+	else {
+		_bounce = true;
 	}
 }
 
-auto Spaceship::Movement() {
+int* Spaceship::Movement() {
 	//Bounce section - this is where _yMoves increases
 	if (_xMoves > _xMovesMax) {
 		_xMoves = 0;
@@ -50,13 +50,12 @@ auto Spaceship::Movement() {
 	int xPosition;
 	if (_bounce == false) { xPosition = _xMoves * _shipWidth; } //Spaceship moving rightwards
 	else { xPosition = (_shipWidth * _xMovesMax) - (_xMoves * _shipWidth); } //Spaceship moving leftwards
-
 	int yPosition = _shipHeight * _yMoves;
 
-	_xMoves++;
+	_xMoves++; //Increments x moves for next time
 
 	//Assembles a struct to return the ship values
 	//Based on: [https://stackoverflow.com/questions/321068/returning-multiple-values-from-a-c-function]
-	struct movedShip { int xPos; int yPos; int width; int height; };
-	return movedShip { xPosition, yPosition, _shipWidth, _shipHeight };
+	int move[4] = {xPosition, yPosition, _shipWidth, _shipHeight};
+	return move;
 }
