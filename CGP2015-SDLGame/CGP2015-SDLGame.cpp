@@ -4,7 +4,6 @@
 #include <iostream>
 #include "SDL.H" //sdl2
 #include "Window.h"
-#include "RNG.h" //Used for Task 5
 
 //Global values for the game loop
 #include "SZ_Timer.h"
@@ -18,11 +17,12 @@ bool gKeys[MAX_KEYS];
 bool pause = false;
 
 int shapeWidth; int shapeHeight; int windowWidth; int windowHeight; //Defined in Init()
-int xPosCalc; bool bounce = false; int moves; int maxMoves; //Defined / used in Update()
+bool bounce = false; int xPosCalc; int xMoves; int xMovesMax; //Defined / used in Update()
+int positionCalc[2]; //Array storing the calculations of x and y positions for that Update()
+
 
 //Globally creates objects so they can be used throughout
 Window* window;
-RNG rng; //Creates an RNG (random number generation) object
 SDL_Event _event;
 
 using namespace std;
@@ -41,7 +41,7 @@ void Init() {
     shapeHeight = 50;
     windowWidth = window->getWidth();
     windowHeight = window->getHeight();
-    maxMoves = (windowWidth / shapeWidth) - 1;
+    xMovesMax = (windowWidth / shapeWidth) - 1;
 
     window->setColour(0, 0, 0, 255); window->clearScreen();
     window->presentToScreen();
@@ -91,20 +91,20 @@ void Update()
     }
     
     //Bounce!
-    if (moves == maxMoves) {
+    if (xMoves == xMovesMax) {
         bounce = !bounce;
-        moves = 0;
+        xMoves = 0;
     }
     //Bounce-based x position calculator
-    if (bounce == false) { xPosCalc = ((windowWidth - shapeWidth) - (moves * shapeWidth)); }
-    else { xPosCalc = moves * shapeWidth; }
+    if (bounce == false) { xPosCalc = ((windowWidth - shapeWidth) - (xMoves * shapeWidth)); }
+    else { xPosCalc = xMoves * shapeWidth; }
 
     //Drawing a square for every frame 
     window->setColour(0, 0, 0, 255); window->clearScreen();
     window->setColour(0, 0, 255, 255);
     window->drawRectangle(xPosCalc, 0, shapeWidth, shapeHeight, true);
     frames++; //Increments the frame counter
-    moves++; //Increments the move counter
+    xMoves++; //Increments the move counter
 }
 
 void Render()

@@ -128,7 +128,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CGP2015-SDLGame.cpp" />
-    <ClCompile Include="RNG.cpp" />
     <ClCompile Include="SZ_Timer.cpp" />
     <ClCompile Include="Week3Tasks.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -139,7 +138,6 @@
   <ItemGroup>
     <ClInclude Include="SZ_Timer.h" />
     <ClInclude Include="Window.h" />
-    <ClInclude Include="RNG.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
