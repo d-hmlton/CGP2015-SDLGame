@@ -9,7 +9,7 @@
 //Global values for the game loop
 #include "SZ_Timer.h"
 SZ_Timer aTimer;
-const float DELTA_TIME = 500.00f; //How many milliseconds each frame is allowed
+const float DELTA_TIME = 66.67f; //How many milliseconds each frame is allowed
 bool done = false; int frames;
 
 //Used in Input()

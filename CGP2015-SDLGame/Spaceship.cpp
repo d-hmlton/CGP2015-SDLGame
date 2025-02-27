@@ -4,7 +4,7 @@ Spaceship::Spaceship(int screenWidth, int screenHeight, int shipWidth, int shipH
 	//Defining parameters
 	_shipWidth = shipWidth; _shipHeight = shipHeight;
 	_xMovesMax = (screenWidth / shipWidth) - 1;
-	_yMovesMax = screenHeight / shipHeight;
+	_yMovesMax = (screenHeight / shipHeight) - 1;
 
 	int xOverUnderFlow = (screenWidth / shipWidth) * xOffset;
 	if ((xOverUnderFlow > screenWidth) || (xOverUnderFlow < 0)) {
