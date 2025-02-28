@@ -2,34 +2,33 @@
 
 Spaceship::Spaceship(Window* window, int shipWidth, int shipHeight, int xOffset, int yOffset) {
 	//Defining parameters
-	_window = window;
-	int screenWidth = _window->getWidth();
-	int screenHeight = _window->getHeight();
-
 	_shipWidth = shipWidth; _shipHeight = shipHeight;
-	_xMovesMax = (screenWidth / shipWidth) - 1;
-	_yMovesMax = (screenHeight / shipHeight) - 1;
+	_window = window;
+	_screenWidth = _window->getWidth() - _shipWidth;
+	_screenHeight = _window->getHeight();
 
-	int xOverUnderFlow = (screenWidth / shipWidth) * xOffset;
-	if ((xOverUnderFlow > screenWidth) || (xOverUnderFlow < 0)) {
+	//xOffset Handler
+	int xOverUnderFlow = (_screenWidth / _shipWidth) * xOffset;
+	if ((xOverUnderFlow > _screenWidth) || (xOverUnderFlow < 0)) {
 		//The entered xOffset is invalid
 		yOffset++; //Puts the spaceship a row lower
 
-		if (xOverUnderFlow > screenWidth) { xOffset = _xMovesMax; } //If x offset greater than screen width
-		else { xOffset = 0; } //If x offset below zero 
+		if (xOverUnderFlow > _screenWidth) { xOffset = (_screenWidth / _shipWidth - 1); } //If xOffset greater than screen width
+		else { xOffset = 0; } //If xOffset below zero 
 	}
 
-	int yOverUnderFlow = (screenHeight / shipHeight) * yOffset;
-	if ((yOverUnderFlow > screenHeight) || (yOverUnderFlow < 0)) {
+	//yOffset Handler
+	int yOverUnderFlow = (_screenHeight / _shipHeight) * yOffset;
+	if ((yOverUnderFlow > _screenHeight) || (yOverUnderFlow < 0)) {
 		//The entered yOffset is invalid; setting yOffset to 0.
 		//(This will also trigger if the xOverUnderFlow check boosted yOffset past the limit)
 		yOffset = 0;
 	}
 
-	_xMoves = xOffset; _xPosition = _xMoves * _shipWidth;
-	_yMoves = yOffset; _yPosition = _yMoves * _shipHeight;
+	_xPosition = xOffset * _shipWidth;
+	_yPosition = yOffset * _shipHeight;
 
-	if (_yMoves % 2 == 0) {
+	if (yOffset % 2 == 0) {
 		_bounce = false;
 	}
 	else {
@@ -38,24 +37,21 @@ Spaceship::Spaceship(Window* window, int shipWidth, int shipHeight, int xOffset,
 }
 
 void Spaceship::Movement() {
-	//Bounce section - this is where _yMoves increases
-	if (_xMoves > _xMovesMax) {
-		_xMoves = 0;
-		_yMoves++;
+	//Handles when the spaceship bounces off the wall of the screen. Flips _bounce, then lowers y position
+	if ((_xPosition + _shipWidth >= _screenWidth && _bounce == false) || (_xPosition <= 0 && _bounce == true)) {
 		_bounce = !_bounce;
+		_yPosition = _yPosition + _shipHeight;
 
-		if (_yMoves > _yMovesMax) {
-			_yMoves = 0;
-			_bounce = false;
+		if (_yPosition >= _screenHeight) {
+			_yPosition = 0;
 		}
+
+		return;
 	}
 
 	//Position calculation section - this is where _xMoves increases
-	if (_bounce == false) { _xPosition = _xMoves * _shipWidth; } //Spaceship moving rightwards
-	else { _xPosition = (_shipWidth * _xMovesMax) - (_xMoves * _shipWidth); } //Spaceship moving leftwards
-	_yPosition = _shipHeight * _yMoves;
-
-	_xMoves++; //Increments x moves for next time
+	if (_bounce == false) { _xPosition = _xPosition + _shipWidth; } //Spaceship moving rightwards
+	else { _xPosition = _xPosition - _shipWidth; } //Spaceship moving leftwards
 }
 
 void Spaceship::Render() {

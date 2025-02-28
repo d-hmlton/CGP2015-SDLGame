@@ -4,11 +4,11 @@
 class Spaceship {
 private:
 	Window* _window;
-	int _xPosition; int _yPosition;
-	int _shipWidth; int _shipHeight;
-	int _xMoves; int _yMoves; //Parameters storing how many moves x or y have been made
-	int _xMovesMax; int _yMovesMax; //Parameters storing the max x or y moves
-	bool _bounce;
+	int _screenWidth; int _screenHeight; //Though these can be grabbed from _window, it's inefficient to grab repeatedly
+
+	int _xPosition; int _yPosition; //The x and y position onscreen of the spaceship's top-left corner
+	int _shipWidth; int _shipHeight; //The spaceship's width and height in pixels
+	bool _bounce; //Tells Movement() whether to move the ship left or right. If false, right. If true, false.
 
 public:
 	//Constructor
