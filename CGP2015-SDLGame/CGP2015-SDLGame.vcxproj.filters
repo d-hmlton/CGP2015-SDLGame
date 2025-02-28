@@ -24,10 +24,13 @@
     <ClCompile Include="SZ_Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RNG.cpp">
+    <ClCompile Include="Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
+    <ClCompile Include="Spaceship.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SZ_GameWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,10 +41,13 @@
     <ClInclude Include="Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RNG.h">
+    <ClInclude Include="SZ_Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SZ_Timer.h">
+    <ClInclude Include="Spaceship.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SZ_GameWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
