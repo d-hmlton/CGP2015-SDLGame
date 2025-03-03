@@ -16,7 +16,9 @@ public:
 	//Constructor
 	Spaceship(Window* window, int width, int height, int xOffset, int yOffset, int r, int g, int b);
 
-	void Movement();
+	int Movement();
+
+	void Bounce();
 
 	void Render();
 };

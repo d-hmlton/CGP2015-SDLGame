@@ -13,15 +13,32 @@ int SZ_GameWorld::Init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         return 1;
 
+    int screenWidth = 800;
+    int screenHeight = 600;
+
     //Create a window
     _window = new Window(
         "Dylan [27599488]",         // title
         SDL_WINDOWPOS_CENTERED,     // x position
         SDL_WINDOWPOS_CENTERED,     // y position
-        800, 600,                   // width, height
+        screenWidth, screenHeight,  // width, height
         SDL_WINDOW_SHOWN);      // flags
 
-    _firstShip = new Spaceship(_window, 50, 50, 0, 0, 0, 0, 255);
+    int width = 20;
+    int height = 20;
+    int shipMax = 20;
+
+    for (int ships = 0; ships < shipMax; ships++) {
+        int xOffset = (ships * 2) % (screenWidth / width);
+        int yOffset = (ships * 2) / (screenWidth / width);
+
+        _shipList.push_back(new Spaceship(_window, width, height,
+            xOffset, yOffset,
+            0, 0, 255));
+    }
+
+    _shipListSize = _shipList.size();
+
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
     _window->presentToScreen();
     _frames = 0;
@@ -88,14 +105,20 @@ void SZ_GameWorld::Update() {
         return;
     }
 
-    _firstShip->Movement();
+    //_firstShip->Movement();
+
+    for (int ship = 0; ship < _shipListSize; ship++) {
+        _shipList[ship]->Movement();
+    }
 }
 
 void SZ_GameWorld::Render() {
     //Drawing a square for every frame 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
 
-    _firstShip->Render();
+    for (int ship = 0; ship < _shipListSize; ship++) {
+        _shipList[ship]->Render();
+    }
 
     //Display window
     _window->presentToScreen();
@@ -106,5 +129,7 @@ void SZ_GameWorld::Render() {
 void SZ_GameWorld::End() {
     SDL_Quit();
     delete _window;
-    delete _firstShip;
+    for (int ship = 0; ship < _shipListSize; ship++) {
+        delete _shipList[ship];
+    }
 }
