@@ -26,11 +26,11 @@ int SZ_GameWorld::Init() {
 
     int width = 20;
     int height = 20;
-    int shipMax = 20;
+    int shipMax = 80;
 
     for (int ships = 0; ships < shipMax; ships++) {
-        int xOffset = (ships * 2) % (screenWidth / width);
-        int yOffset = (ships * 2) / (screenWidth / width);
+        int xOffset = ((screenWidth / 4) / width) + (ships * 2) % ((screenWidth / 2) / width);
+        int yOffset = ((ships * 2) / (screenWidth / width)) * 2;
 
         _shipList.push_back(new Spaceship(_window, width, height,
             xOffset, yOffset,
@@ -105,7 +105,21 @@ void SZ_GameWorld::Update() {
         return;
     }
 
-    //_firstShip->Movement();
+    bool isBounceTime = false;
+    for (int ship = 0; ship < _shipListSize; ship++) {
+        //Bounce phase
+        isBounceTime = _shipList[ship]->BounceCheck(); //Checks if next movement would take the ship beyond screen limits
+        //This MUST be done before movement, or it will cause ships to desync!
+
+        if (isBounceTime == true) {
+            //Runs a new for loop to start from zero in the list and work way up
+            for (int flipShip = 0; flipShip < _shipListSize; flipShip++) {
+                _shipList[flipShip]->Bounce();
+            }
+
+            ship = _shipListSize + 1; //Ensures the 'for' loop ends; prevents a bounce loop
+        }
+    }
 
     for (int ship = 0; ship < _shipListSize; ship++) {
         _shipList[ship]->Movement();

@@ -1,4 +1,5 @@
 #include "Spaceship.h"
+#include <stdio.h>
 
 Spaceship::Spaceship(Window* window, int width, int height, int xOffset, int yOffset, int r, int g, int b) {
 	//Defining parameters
@@ -37,27 +38,27 @@ Spaceship::Spaceship(Window* window, int width, int height, int xOffset, int yOf
 	}
 }
 
-int Spaceship::Movement() {
-	//Handles when the spaceship bounces off the wall of the screen. Flips _bounce, then lowers y position
-	if ((_x + _width >= _screenWidth && _bounce == false) || (_x <= 0 && _bounce == true)) {
-		_bounce = !_bounce;
-		_y = _y + _height;
-
-		if (_y >= _screenHeight) {
-			_y = 0;
-		}
-
-		return 1;
-	}
-
-	//Position calculation section - this is where _xMoves increases
+void Spaceship::Movement() {
+	//Position calculation section
 	if (_bounce == false) { _x = _x + _width; } //Spaceship moving rightwards
 	else { _x = _x - _width; } //Spaceship moving leftwards
-	return 0;
 }
 
+//Checks if a ship's next movement will take it beyond screen limits
+bool Spaceship::BounceCheck() {
+	//If it would
+	if ((_x + _width >= _screenWidth && _bounce == false) || (_x <= 0 && _bounce == true)) {
+		return true;
+	}
+
+	return false; //If it wouldn't
+}
+
+//Runs when BounceCheck() returns 'true' on any ship
 void Spaceship::Bounce() {
 	_bounce = !_bounce;
+	if (_y >= _screenHeight) { _y = 0; }
+	else { _y = _y + _height; }
 }
 
 void Spaceship::Render() {
