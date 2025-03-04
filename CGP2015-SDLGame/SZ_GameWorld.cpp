@@ -26,11 +26,12 @@ int SZ_GameWorld::Init() {
 
     int width = 20;
     int height = 20;
-    int shipMax = 80;
+    int shipMax = 40;
+    int maxSpace = screenWidth / 2; //The maximum space that ships are allowed to occupy
 
     for (int ships = 0; ships < shipMax; ships++) {
-        int xOffset = ((screenWidth / 4) / width) + (ships * 2) % ((screenWidth / 2) / width);
-        int yOffset = ((ships * 2) / (screenWidth / width)) * 2;
+        int xOffset = ((maxSpace / 2) / width) + (ships * 2) % (maxSpace / width);
+        int yOffset = ((ships * 2) / (maxSpace / width)) * 2;
 
         _shipList.push_back(new Spaceship(_window, width, height,
             xOffset, yOffset,
