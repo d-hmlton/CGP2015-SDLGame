@@ -18,5 +18,9 @@ public:
 
 	void Movement();
 
+	bool BounceCheck();
+
+	void Bounce();
+
 	void Render();
 };
