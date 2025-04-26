@@ -24,9 +24,11 @@ int SZ_GameWorld::Init() {
         screenWidth, screenHeight,  // width, height
         SDL_WINDOW_SHOWN);      // flags
 
-    int width = 20;
-    int height = 20;
-    int shipMax = 40;
+    //CODE TO REMOVE
+    /*
+    int width = 40;
+    int height = 40;
+    int shipMax = 20;
     int maxSpace = screenWidth / 2; //The maximum space that ships are allowed to occupy
 
     for (int ships = 0; ships < shipMax; ships++) {
@@ -38,7 +40,7 @@ int SZ_GameWorld::Init() {
             0, 0, 255));
     }
 
-    _shipListSize = _shipList.size();
+    _shipListSize = _shipList.size(); */
 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
     _window->presentToScreen();
@@ -106,6 +108,8 @@ void SZ_GameWorld::Update() {
         return;
     }
 
+    //REMOVE
+    /*
     bool isBounceTime = false;
     for (int ship = 0; ship < _shipListSize; ship++) {
         //Bounce phase
@@ -125,15 +129,19 @@ void SZ_GameWorld::Update() {
     for (int ship = 0; ship < _shipListSize; ship++) {
         _shipList[ship]->Movement();
     }
+    */ 
 }
 
 void SZ_GameWorld::Render() {
     //Drawing a square for every frame 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
 
+    //REMOVE
+    /*
     for (int ship = 0; ship < _shipListSize; ship++) {
         _shipList[ship]->Render();
     }
+    */
 
     //Display window
     _window->presentToScreen();
@@ -144,7 +152,11 @@ void SZ_GameWorld::Render() {
 void SZ_GameWorld::End() {
     SDL_Quit();
     delete _window;
+
+    //REMOVE
+    /*
     for (int ship = 0; ship < _shipListSize; ship++) {
         delete _shipList[ship];
     }
+    */
 }
