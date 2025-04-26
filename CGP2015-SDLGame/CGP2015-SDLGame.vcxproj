@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CGP2015-SDLGame.cpp" />
+    <ClCompile Include="Mansion.cpp" />
     <ClCompile Include="Spaceship.cpp" />
     <ClCompile Include="SZ_GameItem.cpp" />
     <ClCompile Include="SZ_GameWorld.cpp" />
@@ -141,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Spaceship.h" />
+    <ClCompile Include="Mansion.h" />
     <ClInclude Include="SZ_GameItem.h" />
     <ClInclude Include="SZ_GameWorld.h" />
     <ClInclude Include="SZ_Timer.h" />

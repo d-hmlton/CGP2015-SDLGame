@@ -33,6 +33,9 @@
     <ClCompile Include="SZ_GameWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mansion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SZ_Vector2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -56,6 +59,9 @@
     <ClInclude Include="SZ_GameWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClCompile Include="Mansion.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
     <ClInclude Include="SZ_Vector2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
