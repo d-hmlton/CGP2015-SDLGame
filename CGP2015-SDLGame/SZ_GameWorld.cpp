@@ -82,6 +82,14 @@ void SZ_GameWorld::Input() {
                 printf("W has been pressed \n");
                 _gKeys[SDLK_w] = true;
                 break;
+            case SDLK_LEFT:
+                printf("Left Arrow has been pressed \n");
+                _gKeys[SDLK_LEFT] = true;
+                break;
+            case SDLK_RIGHT:
+                printf("Right Arrow has been pressed \n");
+                _gKeys[SDLK_RIGHT] = true;
+                break;
             }
         }
 
@@ -90,6 +98,14 @@ void SZ_GameWorld::Input() {
             case SDLK_w:
                 printf("W has been released \n");
                 _gKeys[SDLK_w] = false;
+                break;
+            case SDLK_LEFT:
+                printf("Left Arrow has been released \n");
+                _gKeys[SDLK_LEFT] = false;
+                break;
+            case SDLK_RIGHT:
+                printf("Right Arrow has been released \n");
+                _gKeys[SDLK_RIGHT] = false;
                 break;
             }
         }
