@@ -28,6 +28,9 @@ int SZ_GameWorld::Init() {
     _window->presentToScreen();
     _frames = 0;
 
+    //Create a mansion
+    _mansion = new Mansion(_window);
+
     return 0;
 }
 
