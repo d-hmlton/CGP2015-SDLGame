@@ -24,24 +24,12 @@ int SZ_GameWorld::Init() {
         screenWidth, screenHeight,  // width, height
         SDL_WINDOW_SHOWN);      // flags
 
-    int width = 20;
-    int height = 20;
-    int shipMax = 80;
-
-    for (int ships = 0; ships < shipMax; ships++) {
-        int xOffset = ((screenWidth / 4) / width) + (ships * 2) % ((screenWidth / 2) / width);
-        int yOffset = ((ships * 2) / (screenWidth / width)) * 2;
-
-        _shipList.push_back(new Spaceship(_window, width, height,
-            xOffset, yOffset,
-            0, 0, 255));
-    }
-
-    _shipListSize = _shipList.size();
-
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
     _window->presentToScreen();
     _frames = 0;
+
+    //Create a mansion
+    _mansion = new Mansion(_window);
 
     return 0;
 }
@@ -79,6 +67,14 @@ void SZ_GameWorld::Input() {
                 printf("W has been pressed \n");
                 _gKeys[SDLK_w] = true;
                 break;
+            case SDLK_LEFT:
+                printf("Left Arrow has been pressed \n");
+                _gKeys[SDLK_LEFT] = true;
+                break;
+            case SDLK_RIGHT:
+                printf("Right Arrow has been pressed \n");
+                _gKeys[SDLK_RIGHT] = true;
+                break;
             }
         }
 
@@ -87,6 +83,14 @@ void SZ_GameWorld::Input() {
             case SDLK_w:
                 printf("W has been released \n");
                 _gKeys[SDLK_w] = false;
+                break;
+            case SDLK_LEFT:
+                printf("Left Arrow has been released \n");
+                _gKeys[SDLK_LEFT] = false;
+                break;
+            case SDLK_RIGHT:
+                printf("Right Arrow has been released \n");
+                _gKeys[SDLK_RIGHT] = false;
                 break;
             }
         }
@@ -104,35 +108,11 @@ void SZ_GameWorld::Update() {
     if (_pause == true) {
         return;
     }
-
-    bool isBounceTime = false;
-    for (int ship = 0; ship < _shipListSize; ship++) {
-        //Bounce phase
-        isBounceTime = _shipList[ship]->BounceCheck(); //Checks if next movement would take the ship beyond screen limits
-        //This MUST be done before movement, or it will cause ships to desync!
-
-        if (isBounceTime == true) {
-            //Runs a new for loop to start from zero in the list and work way up
-            for (int flipShip = 0; flipShip < _shipListSize; flipShip++) {
-                _shipList[flipShip]->Bounce();
-            }
-
-            ship = _shipListSize + 1; //Ensures the 'for' loop ends; prevents a bounce loop
-        }
-    }
-
-    for (int ship = 0; ship < _shipListSize; ship++) {
-        _shipList[ship]->Movement();
-    }
 }
 
 void SZ_GameWorld::Render() {
     //Drawing a square for every frame 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
-
-    for (int ship = 0; ship < _shipListSize; ship++) {
-        _shipList[ship]->Render();
-    }
 
     //Display window
     _window->presentToScreen();
@@ -143,7 +123,4 @@ void SZ_GameWorld::Render() {
 void SZ_GameWorld::End() {
     SDL_Quit();
     delete _window;
-    for (int ship = 0; ship < _shipListSize; ship++) {
-        delete _shipList[ship];
-    }
 }

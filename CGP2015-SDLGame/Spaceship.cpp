@@ -1,5 +1,4 @@
 #include "Spaceship.h"
-#include <stdio.h>
 
 Spaceship::Spaceship(Window* window, int width, int height, int xOffset, int yOffset, int r, int g, int b) {
 	//Defining parameters

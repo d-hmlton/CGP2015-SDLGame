@@ -6,8 +6,7 @@
 
 #include "Window.h"
 #include "SZ_Timer.h"
-#include "Spaceship.h"
-
+#include "Mansion.h"
 
 #define MAX_KEYS (256)
 
@@ -21,8 +20,7 @@ private:
 	bool _pause = false;
 
 	Window* _window;
-	Spaceship* _firstShip;
-	std::vector<Spaceship*> _shipList;
+	Mansion* _mansion;
 	int _shipListSize; //Asking for the size of shipList constantly is inefficient
 
 public:
