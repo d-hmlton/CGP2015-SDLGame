@@ -24,24 +24,6 @@ int SZ_GameWorld::Init() {
         screenWidth, screenHeight,  // width, height
         SDL_WINDOW_SHOWN);      // flags
 
-    //CODE TO REMOVE
-    /*
-    int width = 40;
-    int height = 40;
-    int shipMax = 20;
-    int maxSpace = screenWidth / 2; //The maximum space that ships are allowed to occupy
-
-    for (int ships = 0; ships < shipMax; ships++) {
-        int xOffset = ((maxSpace / 2) / width) + (ships * 2) % (maxSpace / width);
-        int yOffset = ((ships * 2) / (maxSpace / width)) * 2;
-
-        _shipList.push_back(new Spaceship(_window, width, height,
-            xOffset, yOffset,
-            0, 0, 255));
-    }
-
-    _shipListSize = _shipList.size(); */
-
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
     _window->presentToScreen();
     _frames = 0;
@@ -123,41 +105,11 @@ void SZ_GameWorld::Update() {
     if (_pause == true) {
         return;
     }
-
-    //REMOVE
-    /*
-    bool isBounceTime = false;
-    for (int ship = 0; ship < _shipListSize; ship++) {
-        //Bounce phase
-        isBounceTime = _shipList[ship]->BounceCheck(); //Checks if next movement would take the ship beyond screen limits
-        //This MUST be done before movement, or it will cause ships to desync!
-
-        if (isBounceTime == true) {
-            //Runs a new for loop to start from zero in the list and work way up
-            for (int flipShip = 0; flipShip < _shipListSize; flipShip++) {
-                _shipList[flipShip]->Bounce();
-            }
-
-            ship = _shipListSize + 1; //Ensures the 'for' loop ends; prevents a bounce loop
-        }
-    }
-
-    for (int ship = 0; ship < _shipListSize; ship++) {
-        _shipList[ship]->Movement();
-    }
-    */ 
 }
 
 void SZ_GameWorld::Render() {
     //Drawing a square for every frame 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
-
-    //REMOVE
-    /*
-    for (int ship = 0; ship < _shipListSize; ship++) {
-        _shipList[ship]->Render();
-    }
-    */
 
     //Display window
     _window->presentToScreen();
@@ -168,11 +120,4 @@ void SZ_GameWorld::Render() {
 void SZ_GameWorld::End() {
     SDL_Quit();
     delete _window;
-
-    //REMOVE
-    /*
-    for (int ship = 0; ship < _shipListSize; ship++) {
-        delete _shipList[ship];
-    }
-    */
 }

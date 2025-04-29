@@ -6,8 +6,7 @@
 
 #include "Window.h"
 #include "SZ_Timer.h"
-#include "Spaceship.h"
-
+#include "Mansion.h"
 
 #define MAX_KEYS (256)
 
