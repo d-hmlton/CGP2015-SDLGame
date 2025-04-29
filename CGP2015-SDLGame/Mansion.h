@@ -14,6 +14,20 @@ private:
 
 	//Sprite vectors - make it easier to delete everything
 	std::vector<SDL_Texture*> _textureVector;
+	SDL_Texture* _worldBase;
+	SDL_Texture* _worldLeftL3;
+	SDL_Texture* _worldCentreL3;
+	SDL_Texture* _worldRightL3;
+	SDL_Texture* _worldLeftL2;
+	SDL_Texture* _worldCentreL2;
+	SDL_Texture* _worldRightL2;
+	SDL_Texture* _worldLeftL1;
+	SDL_Texture* _worldCentreL1;
+	SDL_Texture* _worldRightL1;
+	SDL_Texture* _worldLeftL0;
+	SDL_Texture* _worldError;
+	SDL_Texture* _worldRightL0;
+
 	int _screenMult;
 	SDL_Rect _srcWorld;
 	SDL_Rect _dstWorld;

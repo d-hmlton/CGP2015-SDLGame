@@ -108,11 +108,15 @@ void SZ_GameWorld::Update() {
     if (_pause == true) {
         return;
     }
+
+    _mansion->UpdateVision();
 }
 
 void SZ_GameWorld::Render() {
     //Drawing a square for every frame 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
+
+    _mansion->RenderVision();
 
     //Display window
     _window->presentToScreen();
