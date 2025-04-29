@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <SDL.H> //sdl2
+#include <SDL_image.h>
 
 #include "Window.h"
 #include "SZ_Timer.h"
