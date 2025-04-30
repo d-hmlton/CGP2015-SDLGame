@@ -12,54 +12,44 @@ int Mansion::Init() {
 
 	SDL_Renderer* renderer = _window->getRenderer();
 
-	//Painfully long surface/texture making section (at least I don't need to make SDL_Surface instances lol)
+	//Painfully long surface/texture making section (at least I don't need to make SDL_Surface instances)
 	IMG_Init(IMG_INIT_PNG); //SDL_image Initialiser
 
+	//For some reason, IMG_LoadTexture is REALLY unreliable at grabbing from the base path without being handed it directly.
+	//To "resolve" this, the program here grabs the base path and then adds the path to file to it.
+	//This sucks, but since SDL is pretty buggy as far as files are concerned, it's what needed to be done.
+	// 
+	//NOTE: If sprites aren't loading on your machine, the path might be too long. SDL breaks with paths over a certain length.
+	//I have no idea how you fix this. If you do, please get in touch.
 	char* path = SDL_GetBasePath();
 	char basePath[100]; strcpy_s(basePath, path); strcat_s(basePath, "content\\worldBase.png");
-	std::cout << basePath << std::endl;
-	_worldBase = IMG_LoadTexture(renderer, basePath);
-	_textureVector.push_back(_worldBase); //index 0
-
 	char leftL3Path[100]; strcpy_s(leftL3Path, path); strcat_s(leftL3Path, "content\\worldLeftL3.png");
-	_worldLeftL3 = IMG_LoadTexture(renderer, leftL3Path);
-	_textureVector.push_back(_worldLeftL3); //index 1
 	char centreL3Path[100]; strcpy_s(centreL3Path, path); strcat_s(centreL3Path, "content\\worldCentreL3.png");
-	_worldCentreL3 = IMG_LoadTexture(renderer, centreL3Path);
-	_textureVector.push_back(_worldCentreL3); //index 2
 	char rightL3Path[100]; strcpy_s(rightL3Path, path); strcat_s(rightL3Path, "content\\worldRightL3.png");
-	_worldRightL3 = IMG_LoadTexture(renderer, rightL3Path);
-	_textureVector.push_back(_worldRightL3); //index 3
-
 	char leftL2Path[100]; strcpy_s(leftL2Path, path); strcat_s(leftL2Path, "content\\worldLeftL2.png");
-	_worldLeftL2 = IMG_LoadTexture(renderer, leftL2Path);
-	_textureVector.push_back(_worldLeftL2); //index 4
 	char centreL2Path[100]; strcpy_s(centreL2Path, path); strcat_s(centreL2Path, "content\\worldCentreL2.png");
-	_worldCentreL2 = IMG_LoadTexture(renderer, centreL2Path);
-	_textureVector.push_back(_worldCentreL2); //index 5
 	char rightL2Path[100]; strcpy_s(rightL2Path, path); strcat_s(rightL2Path, "content\\worldRightL2.png");
-	_worldRightL2 = IMG_LoadTexture(renderer, rightL2Path);
-	_textureVector.push_back(_worldRightL2); //index 6
-
 	char leftL1Path[100]; strcpy_s(leftL1Path, path); strcat_s(leftL1Path, "content\\worldLeftL1.png");
-	_worldLeftL1 = IMG_LoadTexture(renderer, leftL1Path);
-	_textureVector.push_back(_worldLeftL1); //index 7
 	char centreL1Path[100]; strcpy_s(centreL1Path, path); strcat_s(centreL1Path, "content\\worldCentreL1.png");
-	_worldCentreL1 = IMG_LoadTexture(renderer, centreL1Path);
-	_textureVector.push_back(_worldCentreL1); //index 8
 	char rightL1Path[100]; strcpy_s(rightL1Path, path); strcat_s(rightL1Path, "content\\worldRightL1.png");
-	_worldRightL1 = IMG_LoadTexture(renderer, rightL1Path);
-	_textureVector.push_back(_worldRightL1); //index 9
-
 	char leftL0Path[100]; strcpy_s(leftL0Path, path); strcat_s(leftL0Path, "content\\worldLeftL0.png");
-	_worldLeftL0 = IMG_LoadTexture(renderer, leftL0Path);
-	_textureVector.push_back(_worldLeftL0); //index 10
 	char errorPath[100]; strcpy_s(errorPath, path); strcat_s(errorPath, "content\\worldError.png");
-	_worldError = IMG_LoadTexture(renderer, errorPath);
-	_textureVector.push_back(_worldError); //index 11
 	char rightL0Path[100]; strcpy_s(rightL0Path, path); strcat_s(rightL0Path, "content\\worldRightL0.png");
-	_worldRightL0 = IMG_LoadTexture(renderer, rightL0Path);
-	_textureVector.push_back(_worldRightL0); //index 12
+
+	std::cout << basePath << std::endl;
+	_worldBase = IMG_LoadTexture(renderer, basePath); _textureVector.push_back(_worldBase);				//index 0
+	_worldLeftL3 = IMG_LoadTexture(renderer, leftL3Path); _textureVector.push_back(_worldLeftL3);		//index 1
+	_worldCentreL3 = IMG_LoadTexture(renderer, centreL3Path); _textureVector.push_back(_worldCentreL3); //index 2
+	_worldRightL3 = IMG_LoadTexture(renderer, rightL3Path); _textureVector.push_back(_worldRightL3);	//index 3
+	_worldLeftL2 = IMG_LoadTexture(renderer, leftL2Path); _textureVector.push_back(_worldLeftL2);		//index 4
+	_worldCentreL2 = IMG_LoadTexture(renderer, centreL2Path); _textureVector.push_back(_worldCentreL2); //index 5
+	_worldRightL2 = IMG_LoadTexture(renderer, rightL2Path); _textureVector.push_back(_worldRightL2);	//index 6
+	_worldLeftL1 = IMG_LoadTexture(renderer, leftL1Path); _textureVector.push_back(_worldLeftL1);		//index 7
+	_worldCentreL1 = IMG_LoadTexture(renderer, centreL1Path); _textureVector.push_back(_worldCentreL1); //index 8
+	_worldRightL1 = IMG_LoadTexture(renderer, rightL1Path); _textureVector.push_back(_worldRightL1);	//index 9
+	_worldLeftL0 = IMG_LoadTexture(renderer, leftL0Path); _textureVector.push_back(_worldLeftL0);		//index 10
+	_worldError = IMG_LoadTexture(renderer, errorPath); _textureVector.push_back(_worldError);			//index 11
+	_worldRightL0 = IMG_LoadTexture(renderer, rightL0Path); _textureVector.push_back(_worldRightL0);	//index 12
 
 	IMG_Quit();
 
