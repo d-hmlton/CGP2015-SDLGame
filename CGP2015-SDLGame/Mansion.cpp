@@ -37,18 +37,18 @@ int Mansion::Init() {
 	char rightL0Path[100]; strcpy_s(rightL0Path, path); strcat_s(rightL0Path, "content\\worldRightL0.png");
 
 	std::cout << basePath << std::endl;
-	_worldBase = IMG_LoadTexture(renderer, basePath); _textureVector.push_back(_worldBase);				//index 0
+	_worldBase = IMG_LoadTexture(renderer, basePath); _textureVector.push_back(_worldBase);			//index 0
 	_worldLeftL3 = IMG_LoadTexture(renderer, leftL3Path); _textureVector.push_back(_worldLeftL3);		//index 1
-	_worldCentreL3 = IMG_LoadTexture(renderer, centreL3Path); _textureVector.push_back(_worldCentreL3); //index 2
+	_worldCentreL3 = IMG_LoadTexture(renderer, centreL3Path); _textureVector.push_back(_worldCentreL3);	//index 2
 	_worldRightL3 = IMG_LoadTexture(renderer, rightL3Path); _textureVector.push_back(_worldRightL3);	//index 3
 	_worldLeftL2 = IMG_LoadTexture(renderer, leftL2Path); _textureVector.push_back(_worldLeftL2);		//index 4
-	_worldCentreL2 = IMG_LoadTexture(renderer, centreL2Path); _textureVector.push_back(_worldCentreL2); //index 5
+	_worldCentreL2 = IMG_LoadTexture(renderer, centreL2Path); _textureVector.push_back(_worldCentreL2);	//index 5
 	_worldRightL2 = IMG_LoadTexture(renderer, rightL2Path); _textureVector.push_back(_worldRightL2);	//index 6
 	_worldLeftL1 = IMG_LoadTexture(renderer, leftL1Path); _textureVector.push_back(_worldLeftL1);		//index 7
-	_worldCentreL1 = IMG_LoadTexture(renderer, centreL1Path); _textureVector.push_back(_worldCentreL1); //index 8
+	_worldCentreL1 = IMG_LoadTexture(renderer, centreL1Path); _textureVector.push_back(_worldCentreL1);	//index 8
 	_worldRightL1 = IMG_LoadTexture(renderer, rightL1Path); _textureVector.push_back(_worldRightL1);	//index 9
 	_worldLeftL0 = IMG_LoadTexture(renderer, leftL0Path); _textureVector.push_back(_worldLeftL0);		//index 10
-	_worldError = IMG_LoadTexture(renderer, errorPath); _textureVector.push_back(_worldError);			//index 11
+	_worldError = IMG_LoadTexture(renderer, errorPath); _textureVector.push_back(_worldError);		//index 11
 	_worldRightL0 = IMG_LoadTexture(renderer, rightL0Path); _textureVector.push_back(_worldRightL0);	//index 12
 
 	IMG_Quit();
