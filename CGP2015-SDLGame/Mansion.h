@@ -42,7 +42,7 @@ private:
 
 	std::vector<std::vector<int>> _pVision = {
 		{ 0, 0, 0 },
-		{ 0, 0, 0 },
+		{ 0, 1, 0 },
 		{ 0, 0, 0 },
 		{ 0, 0, 0 } };
 	std::vector<int> _pLoc = { 4, 0 };
@@ -54,13 +54,13 @@ public:
 
 	int Print();
 
-	int UpdateVision();
-	int RenderVision();
-
-	//int Move();
-	//int ChangeDirection();
-
 	int TurnLeft();
 	int TurnRight();
+
+	int MoveForward();
+	int WallCollision();
+
+	int UpdateVision();
+	int RenderVision();
 };
 

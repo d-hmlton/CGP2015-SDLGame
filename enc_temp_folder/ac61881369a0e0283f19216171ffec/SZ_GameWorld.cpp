@@ -18,11 +18,11 @@ int SZ_GameWorld::Init() {
 
     //Create a window
     _window = new Window(
-        "Mansion Quest - Dylan Hamilton [27599488] - Game Programming", // title
-        SDL_WINDOWPOS_CENTERED,                                         // x position
-        SDL_WINDOWPOS_CENTERED,                                         // y position
-        screenWidth, screenHeight,                                      // width, height
-        SDL_WINDOW_SHOWN);                                              // flags
+        "Mansion Quest - Dylan Hamilton [27599488] - Games Computing",         // title
+        SDL_WINDOWPOS_CENTERED,     // x position
+        SDL_WINDOWPOS_CENTERED,     // y position
+        screenWidth, screenHeight,  // width, height
+        SDL_WINDOW_SHOWN);      // flags
 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
     _window->presentToScreen();

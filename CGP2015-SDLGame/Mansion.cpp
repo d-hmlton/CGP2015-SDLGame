@@ -9,7 +9,6 @@ Mansion::Mansion(Window* window) {
 }
 
 int Mansion::Init() {
-
 	SDL_Renderer* renderer = _window->getRenderer();
 
 	//Painfully long surface/texture making section (at least I don't need to make SDL_Surface instances)
@@ -22,34 +21,30 @@ int Mansion::Init() {
 	//NOTE: If sprites aren't loading on your machine, the path might be too long. SDL breaks with paths over a certain length.
 	//I have no idea how you fix this. If you do, please get in touch.
 	char* path = SDL_GetBasePath();
-	char basePath[100]; strcpy_s(basePath, path); strcat_s(basePath, "content\\worldBase.png");
-	char leftL3Path[100]; strcpy_s(leftL3Path, path); strcat_s(leftL3Path, "content\\worldLeftL3.png");
-	char centreL3Path[100]; strcpy_s(centreL3Path, path); strcat_s(centreL3Path, "content\\worldCentreL3.png");
-	char rightL3Path[100]; strcpy_s(rightL3Path, path); strcat_s(rightL3Path, "content\\worldRightL3.png");
-	char leftL2Path[100]; strcpy_s(leftL2Path, path); strcat_s(leftL2Path, "content\\worldLeftL2.png");
-	char centreL2Path[100]; strcpy_s(centreL2Path, path); strcat_s(centreL2Path, "content\\worldCentreL2.png");
-	char rightL2Path[100]; strcpy_s(rightL2Path, path); strcat_s(rightL2Path, "content\\worldRightL2.png");
-	char leftL1Path[100]; strcpy_s(leftL1Path, path); strcat_s(leftL1Path, "content\\worldLeftL1.png");
-	char centreL1Path[100]; strcpy_s(centreL1Path, path); strcat_s(centreL1Path, "content\\worldCentreL1.png");
-	char rightL1Path[100]; strcpy_s(rightL1Path, path); strcat_s(rightL1Path, "content\\worldRightL1.png");
-	char leftL0Path[100]; strcpy_s(leftL0Path, path); strcat_s(leftL0Path, "content\\worldLeftL0.png");
-	char errorPath[100]; strcpy_s(errorPath, path); strcat_s(errorPath, "content\\worldError.png");
-	char rightL0Path[100]; strcpy_s(rightL0Path, path); strcat_s(rightL0Path, "content\\worldRightL0.png");
+	char basePath[200]; strcpy_s(basePath, path); strcat_s(basePath, "content\\worldBase.png");
+	char leftL3Path[200]; strcpy_s(leftL3Path, path); strcat_s(leftL3Path, "content\\worldLeftL3.png");
+	char rightL3Path[200]; strcpy_s(rightL3Path, path); strcat_s(rightL3Path, "content\\worldRightL3.png");
+	char centreL3Path[200]; strcpy_s(centreL3Path, path); strcat_s(centreL3Path, "content\\worldCentreL3.png");
+	char leftL2Path[200]; strcpy_s(leftL2Path, path); strcat_s(leftL2Path, "content\\worldLeftL2.png");
+	char rightL2Path[200]; strcpy_s(rightL2Path, path); strcat_s(rightL2Path, "content\\worldRightL2.png");
+	char centreL2Path[200]; strcpy_s(centreL2Path, path); strcat_s(centreL2Path, "content\\worldCentreL2.png");
+	char leftL1Path[200]; strcpy_s(leftL1Path, path); strcat_s(leftL1Path, "content\\worldLeftL1.png");
+	char rightL1Path[200]; strcpy_s(rightL1Path, path); strcat_s(rightL1Path, "content\\worldRightL1.png");
+	char centreL1Path[200]; strcpy_s(centreL1Path, path); strcat_s(centreL1Path, "content\\worldCentreL1.png");
+	char leftL0Path[200]; strcpy_s(leftL0Path, path); strcat_s(leftL0Path, "content\\worldLeftL0.png");
+	char rightL0Path[200]; strcpy_s(rightL0Path, path); strcat_s(rightL0Path, "content\\worldRightL0.png");
+	char errorPath[200]; strcpy_s(errorPath, path); strcat_s(errorPath, "content\\worldError.png");
 
-	std::cout << basePath << std::endl;
 	_worldBase = IMG_LoadTexture(renderer, basePath); _textureVector.push_back(_worldBase);			//index 0
 	_worldLeftL3 = IMG_LoadTexture(renderer, leftL3Path); _textureVector.push_back(_worldLeftL3);		//index 1
 	_worldRightL3 = IMG_LoadTexture(renderer, rightL3Path); _textureVector.push_back(_worldRightL3);	//index 2
 	_worldCentreL3 = IMG_LoadTexture(renderer, centreL3Path); _textureVector.push_back(_worldCentreL3);	//index 3
-
 	_worldLeftL2 = IMG_LoadTexture(renderer, leftL2Path); _textureVector.push_back(_worldLeftL2);		//index 4
 	_worldRightL2 = IMG_LoadTexture(renderer, rightL2Path); _textureVector.push_back(_worldRightL2);	//index 5
 	_worldCentreL2 = IMG_LoadTexture(renderer, centreL2Path); _textureVector.push_back(_worldCentreL2);	//index 6
-
 	_worldLeftL1 = IMG_LoadTexture(renderer, leftL1Path); _textureVector.push_back(_worldLeftL1);		//index 7
 	_worldRightL1 = IMG_LoadTexture(renderer, rightL1Path); _textureVector.push_back(_worldRightL1);	//index 8
 	_worldCentreL1 = IMG_LoadTexture(renderer, centreL1Path); _textureVector.push_back(_worldCentreL1);	//index 9
-
 	_worldLeftL0 = IMG_LoadTexture(renderer, leftL0Path); _textureVector.push_back(_worldLeftL0);		//index 10
 	_worldRightL0 = IMG_LoadTexture(renderer, rightL0Path); _textureVector.push_back(_worldRightL0);	//index 11
 	_worldError = IMG_LoadTexture(renderer, errorPath); _textureVector.push_back(_worldError);		//index 12
@@ -85,12 +80,13 @@ int Mansion::Print() {
 	return 0;
 }
 
-int Mansion::RotateClockwise() {
+//Function to make the player look 90 degrees to the left
+int Mansion::TurnLeft() {
+	//Will rotate the whole matrix - effectively rotating the world around Mario, rather than Mario in the world.
+	// This is, hilariously, much simpler than the latter lol
 	//Based on code from 'GeeksforGeeks' - see references in report
-	//Matrix rotation code
-	Print();
 
-	//Swapping ints around
+	//Swapping ints around (transposition)
 	for (int row = 0; row < 5; row++) {
 		for (int col = row + 1; col < 5; col++) {
 			std::swap(_mansionGrid[row][col], _mansionGrid[col][row]);
@@ -102,15 +98,67 @@ int Mansion::RotateClockwise() {
 		reverse(_mansionGrid[row].begin(), _mansionGrid[row].end());
 	}
 
-	//Player rotation code
+	//Rotating player coords in turn
 	std::vector<int> newLoc = {0, 0};
 	newLoc[0] = _pLoc[1];
 	newLoc[1] = 5 - _pLoc[0] - 1;
 	_pLoc = newLoc;
 
-	UpdateVision();
+	UpdateVision(); //REMOVE LATER
+	return 0;
+}
 
+//Function to make the player look 90 degrees to the left
+int Mansion::TurnRight() {
+	//Almost identical to TurnLeft()
 	Print();
+
+	//Reversing the rows
+	for (int row = 0; row < 5; row++) {
+		reverse(_mansionGrid[row].begin(), _mansionGrid[row].end());
+	}
+
+	//Swapping ints around
+	for (int row = 0; row < 5; row++) {
+		for (int col = row + 1; col < 5; col++) {
+			std::swap(_mansionGrid[row][col], _mansionGrid[col][row]);
+		}
+	}
+
+	//Player rotation code
+	std::vector<int> newLoc = { 0, 0 };
+	newLoc[0] = 5 - _pLoc[1] - 1;
+	newLoc[1] = _pLoc[0];
+	_pLoc = newLoc;
+
+	UpdateVision();
+	Print();
+	return 0;
+}
+
+int Mansion::MoveForward() {
+	//Collision Handler
+	if (_pVision[1][1] == 1) {
+		WallCollision();
+		return 1;
+	}
+	//Victory Handler
+	if (_pVision[1][1] == 2) {
+		//Enter Victory Function Here
+		return 0;
+	}
+
+	_pLoc[0] = _pLoc[0] - 1;
+	_pVision = {{ 0, 0, 0 },
+				{ 0, 0, 0 },
+				{ 0, 0, 0 },
+				{ 0, 0, 0 } };
+
+	UpdateVision();
+}
+
+int Mansion::WallCollision() {
+	//make it collide with things
 
 	return 0;
 }
