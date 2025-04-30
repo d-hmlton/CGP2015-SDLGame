@@ -60,7 +60,7 @@ public:
 	//int Move();
 	//int ChangeDirection();
 
-	int RotateClockwise();
-	//int RotateCounterClockwise();
+	int TurnLeft();
+	int TurnRight();
 };
 

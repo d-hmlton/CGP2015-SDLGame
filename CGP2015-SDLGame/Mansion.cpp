@@ -39,17 +39,20 @@ int Mansion::Init() {
 	std::cout << basePath << std::endl;
 	_worldBase = IMG_LoadTexture(renderer, basePath); _textureVector.push_back(_worldBase);			//index 0
 	_worldLeftL3 = IMG_LoadTexture(renderer, leftL3Path); _textureVector.push_back(_worldLeftL3);		//index 1
-	_worldCentreL3 = IMG_LoadTexture(renderer, centreL3Path); _textureVector.push_back(_worldCentreL3);	//index 2
-	_worldRightL3 = IMG_LoadTexture(renderer, rightL3Path); _textureVector.push_back(_worldRightL3);	//index 3
+	_worldRightL3 = IMG_LoadTexture(renderer, rightL3Path); _textureVector.push_back(_worldRightL3);	//index 2
+	_worldCentreL3 = IMG_LoadTexture(renderer, centreL3Path); _textureVector.push_back(_worldCentreL3);	//index 3
+
 	_worldLeftL2 = IMG_LoadTexture(renderer, leftL2Path); _textureVector.push_back(_worldLeftL2);		//index 4
-	_worldCentreL2 = IMG_LoadTexture(renderer, centreL2Path); _textureVector.push_back(_worldCentreL2);	//index 5
-	_worldRightL2 = IMG_LoadTexture(renderer, rightL2Path); _textureVector.push_back(_worldRightL2);	//index 6
+	_worldRightL2 = IMG_LoadTexture(renderer, rightL2Path); _textureVector.push_back(_worldRightL2);	//index 5
+	_worldCentreL2 = IMG_LoadTexture(renderer, centreL2Path); _textureVector.push_back(_worldCentreL2);	//index 6
+
 	_worldLeftL1 = IMG_LoadTexture(renderer, leftL1Path); _textureVector.push_back(_worldLeftL1);		//index 7
-	_worldCentreL1 = IMG_LoadTexture(renderer, centreL1Path); _textureVector.push_back(_worldCentreL1);	//index 8
-	_worldRightL1 = IMG_LoadTexture(renderer, rightL1Path); _textureVector.push_back(_worldRightL1);	//index 9
+	_worldRightL1 = IMG_LoadTexture(renderer, rightL1Path); _textureVector.push_back(_worldRightL1);	//index 8
+	_worldCentreL1 = IMG_LoadTexture(renderer, centreL1Path); _textureVector.push_back(_worldCentreL1);	//index 9
+
 	_worldLeftL0 = IMG_LoadTexture(renderer, leftL0Path); _textureVector.push_back(_worldLeftL0);		//index 10
-	_worldError = IMG_LoadTexture(renderer, errorPath); _textureVector.push_back(_worldError);		//index 11
-	_worldRightL0 = IMG_LoadTexture(renderer, rightL0Path); _textureVector.push_back(_worldRightL0);	//index 12
+	_worldRightL0 = IMG_LoadTexture(renderer, rightL0Path); _textureVector.push_back(_worldRightL0);	//index 11
+	_worldError = IMG_LoadTexture(renderer, errorPath); _textureVector.push_back(_worldError);		//index 12
 
 	IMG_Quit();
 
@@ -87,13 +90,17 @@ int Mansion::RotateClockwise() {
 	//Matrix rotation code
 	Print();
 
-	std::vector<std::vector<int>> result(5, std::vector<int>(5));
+	//Swapping ints around
 	for (int row = 0; row < 5; row++) {
 		for (int col = row + 1; col < 5; col++) {
-			result[col][5 - row - 1] = _mansionGrid[row][col];
+			std::swap(_mansionGrid[row][col], _mansionGrid[col][row]);
 		}
 	}
-	_mansionGrid = result;
+
+	//Reversing the rows
+	for (int row = 0; row < 5; row++) {
+		reverse(_mansionGrid[row].begin(), _mansionGrid[row].end());
+	}
 
 	//Player rotation code
 	std::vector<int> newLoc = {0, 0};
@@ -154,13 +161,13 @@ int Mansion::RenderVision() {
 
 	//Vision render - loops through the 12 wall sprites, indexed to allow this to work
 	int sprite = 1; int row = 3;
+	int colLoop[3] = {0, 2, 1}; //Centre wall needs to be done last, so this tells the code to order to render in
 	while (row > -1) {
-		int col = 0;
-		while (col < 3) {
-			if (_pVision[row][col] == 1) {
+		for (int i = 0; i < 3; i++) {
+			if (_pVision[row][colLoop[i]] == 1) {
 				_window->renderSprite(_textureVector[sprite], _srcWorld, _dstWorld);
 			}
-			sprite++; col++; //Goes to next sprite, and to next col along
+			sprite++;
 		}
 		row--; //Reached end of cols for that row; advances row
 	}

@@ -106,7 +106,7 @@ void SZ_GameWorld::Input() {
 
 void SZ_GameWorld::Update() {
     if (_pause == true) {
-        return;
+        _mansion->RotateClockwise();
     }
 
     _mansion->UpdateVision();
