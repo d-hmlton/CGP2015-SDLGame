@@ -12,6 +12,7 @@ Window::Window(const char* title, int x, int y, int width, int height, Uint32 fl
 
     //Default val
     _srcWorld = { 0, 0, 400, 300 };
+    _dstWorld = { 0, 0, 800, 600 };
 }
 
 //Method to set the state of SDL's colour
@@ -38,6 +39,20 @@ void Window::screenCheck() {
 
 void Window::renderSprite(SDL_Texture* texture) {
     SDL_RenderCopy(_renderer, texture, &_srcWorld, &_dstWorld);
+}
+
+void Window::fullscreenToggle() {
+    if (_fullscreen == false) {
+        SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        _fullscreen = true;
+    }
+    else {
+        SDL_SetWindowFullscreen(_window, 0);
+        _fullscreen = false;
+    }
+
+    _width = SDL_GetWindowSurface(_window)->w;
+    _height = SDL_GetWindowSurface(_window)->h;
 }
 
 //Method to clear the screen in memory

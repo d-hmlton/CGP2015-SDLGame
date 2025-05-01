@@ -97,6 +97,9 @@ void SZ_GameWorld::Input() {
 
             case SDLK_SPACE:
                 _gKeys[SDLK_SPACE] = true; break;
+
+            case SDLK_BACKSPACE:
+                _gKeys[SDLK_BACKSPACE] = true; break;
             }
         }
 
@@ -124,7 +127,17 @@ void SZ_GameWorld::Input() {
 
             case SDLK_SPACE:
                 _gKeys[SDLK_SPACE] = false; break;
+            case SDLK_BACKSPACE:
+                _gKeys[SDLK_BACKSPACE] = false; break;
             }
+        }
+    }
+
+    //Fullscreen
+    if (_gKeys[SDLK_BACKSPACE]) {
+        if (_inputTimer.getTicks() > 100.00f) {
+            _inputTimer.resetTicksTimer();
+            _window->fullscreenToggle();
         }
     }
 
@@ -224,4 +237,8 @@ void SZ_GameWorld::Render() {
 void SZ_GameWorld::End() {
     SDL_Quit();
     delete _window;
+    delete _splash;
+    delete _mansion;
+    delete _timerUI;
+    delete _battle;
 }

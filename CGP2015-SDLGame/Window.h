@@ -5,10 +5,10 @@
 class Window {
 private:
     int _width; int _height;
+    bool _fullscreen = false;
     SDL_Window* _window;
     SDL_Renderer* _renderer;
 
-    int _screenMult;
     SDL_Rect _srcWorld;
     SDL_Rect _dstWorld;
 
@@ -25,6 +25,9 @@ public:
     //Renders an SDL_Texture presented
     void renderSprite(SDL_Texture* texture);
 
+    //Toggles fullscreen
+    void fullscreenToggle();
+
     //Method to clear the screen in memory
     void clearScreen();
 
@@ -33,7 +36,6 @@ public:
 
     //Method to draw a line onscreen
     void drawLine(int x1, int y1, int x2, int y2);
-
     void drawRectangle(int x, int y, int width, int height, bool fill);
 
     //Method to draw a triangle in memory
