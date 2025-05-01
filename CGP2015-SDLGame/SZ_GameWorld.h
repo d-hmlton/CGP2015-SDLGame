@@ -10,6 +10,7 @@
 #include "Mansion.h"
 #include "TimerUI.h"
 #include "Battle.h"
+#include "Splash.h"
 
 #define MAX_KEYS (256)
 
@@ -25,6 +26,7 @@ private:
 	int _battleState = 0; //0 = battle to come, 1 = battle ongoing, 2 = battle over
 
 	Window* _window;
+	Splash* _splash;
 	Mansion* _mansion;
 	TimerUI* _timerUI;
 	Battle* _battle;

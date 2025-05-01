@@ -18,8 +18,7 @@ int SZ_GameWorld::Init() {
 
     //Create a window
     _window = new Window(
-        //"Mansion Quest - Dylan Hamilton [27599488] - Game Programming", // title
-        "game",
+        "Mansion Quest - Dylan Hamilton [27599488] - Game Programming", // title
         SDL_WINDOWPOS_CENTERED,                                         // x position
         SDL_WINDOWPOS_CENTERED,                                         // y position
         screenWidth, screenHeight,                                      // width, height
@@ -28,6 +27,10 @@ int SZ_GameWorld::Init() {
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
     _window->presentToScreen();
     _frames = 0;
+
+    //Splash screen
+    _splash = new Splash(_window);
+    _splash->SplashLoop();
 
     //Create a mansion
     _mansion = new Mansion(_window);

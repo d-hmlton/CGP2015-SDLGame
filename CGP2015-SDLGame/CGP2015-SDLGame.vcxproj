@@ -136,6 +136,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="SZ_GameItem.cpp" />
+    <ClCompile Include="Splash.cpp" />
     <ClCompile Include="SZ_GameWorld.cpp" />
     <ClCompile Include="SZ_Timer.cpp" />
     <ClCompile Include="SZ_Vector2D.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Spaceship.h" />
     <ClCompile Include="Mansion.h" />
     <ClInclude Include="SZ_GameItem.h" />
+    <ClInclude Include="Splash.h" />
     <ClInclude Include="SZ_GameWorld.h" />
     <ClInclude Include="SZ_Timer.h" />
     <ClInclude Include="SZ_Vector2D.h" />

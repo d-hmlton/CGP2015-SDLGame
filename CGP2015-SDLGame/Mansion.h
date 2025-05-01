@@ -30,7 +30,7 @@ private:
 
 	//Mansion map matrix
 	std::vector<std::vector<int>> _mansionGrid = {
-		{ 2, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0 },
 		{ 1, 1, 1, 1, 0 },
 		{ 0, 0, 0, 0, 0 },
 		{ 0, 1, 0, 1, 0 },
