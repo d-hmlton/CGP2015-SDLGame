@@ -14,6 +14,9 @@ public:
     //Method to set the state of SDL's colour
     void setColour(int red, int green, int blue, int alpha);
 
+    //Renders an SDL_Texture presented
+    void renderSprite(SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect);
+
     //Method to clear the screen in memory
     void clearScreen();
 
@@ -30,4 +33,5 @@ public:
 
     int getWidth() { return _width; }
     int getHeight() { return _height; }
+    SDL_Renderer* getRenderer() { return _renderer; }
 };

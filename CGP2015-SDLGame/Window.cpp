@@ -16,6 +16,10 @@ void Window::setColour(int red, int green, int blue, int alpha) {
     SDL_SetRenderDrawColor(_renderer, red, green, blue, alpha);
 }
 
+void Window::renderSprite(SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect) {
+    SDL_RenderCopy(_renderer, texture, &srcRect, &dstRect);
+}
+
 //Method to clear the screen in memory
 void Window::clearScreen() {
     SDL_RenderClear(_renderer);

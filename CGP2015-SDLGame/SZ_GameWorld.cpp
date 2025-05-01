@@ -18,11 +18,11 @@ int SZ_GameWorld::Init() {
 
     //Create a window
     _window = new Window(
-        "Dylan [27599488]",         // title
-        SDL_WINDOWPOS_CENTERED,     // x position
-        SDL_WINDOWPOS_CENTERED,     // y position
-        screenWidth, screenHeight,  // width, height
-        SDL_WINDOW_SHOWN);      // flags
+        "Mansion Quest - Dylan Hamilton [27599488] - Game Programming", // title
+        SDL_WINDOWPOS_CENTERED,                                         // x position
+        SDL_WINDOWPOS_CENTERED,                                         // y position
+        screenWidth, screenHeight,                                      // width, height
+        SDL_WINDOW_SHOWN);                                              // flags
 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
     _window->presentToScreen();
@@ -60,59 +60,78 @@ void SZ_GameWorld::Input() {
 
         if (_event.type == SDL_KEYDOWN && _event.key.repeat == NULL) {
             switch (_event.key.keysym.sym) {
-            case SDLK_ESCAPE:
-                _done = true;
-                break;
+            //Quitting is the highest order of precedence
+            case SDLK_ESCAPE: 
+                _done = true; break;
+
+            //Movement is second-highest
             case SDLK_w:
-                printf("W has been pressed \n");
-                _gKeys[SDLK_w] = true;
-                break;
+                _gKeys[SDLK_w] = true; break;
+            case SDLK_UP:
+                _gKeys[SDLK_w] = true; break; //Arrows aren't in _gKeys - part of a special keyboard
+
+            //Rotation is third-highest - though, left first, right second
+            case SDLK_a:
+                _gKeys[SDLK_a] = true; break;
             case SDLK_LEFT:
-                printf("Left Arrow has been pressed \n");
-                _gKeys[SDLK_LEFT] = true;
-                break;
+                _gKeys[SDLK_a] = true; break;
+            //(Right second)
+            case SDLK_d:
+                _gKeys[SDLK_d] = true; break;
             case SDLK_RIGHT:
-                printf("Right Arrow has been pressed \n");
-                _gKeys[SDLK_RIGHT] = true;
-                break;
+                _gKeys[SDLK_d] = true; break;
             }
         }
 
         if (_event.type == SDL_KEYUP && _event.key.repeat == NULL) {
             switch (_event.key.keysym.sym) {
             case SDLK_w:
-                printf("W has been released \n");
-                _gKeys[SDLK_w] = false;
-                break;
+                _gKeys[SDLK_w] = false; break;
+            case SDLK_UP:
+                _gKeys[SDLK_w] = false; break;
+
+            case SDLK_a:
+                _gKeys[SDLK_a] = false; break;
             case SDLK_LEFT:
-                printf("Left Arrow has been released \n");
-                _gKeys[SDLK_LEFT] = false;
-                break;
+                _gKeys[SDLK_a] = false; break;
+
+            case SDLK_d:
+                _gKeys[SDLK_d] = false; break;
             case SDLK_RIGHT:
-                printf("Right Arrow has been released \n");
-                _gKeys[SDLK_RIGHT] = false;
-                break;
+                _gKeys[SDLK_d] = false; break;
             }
         }
     }
 
-    if (_gKeys[SDLK_w]) {
-        _pause = true;
+    if (_gKeys[SDLK_a]) {
+        if (_inputTimer.getTicks() > 200.00f) {
+            _inputTimer.resetTicksTimer();
+            _mansion->TurnLeft();
+        }
     }
-    else {
-        _pause = false;
+    if (_gKeys[SDLK_d]) {
+        if (_inputTimer.getTicks() > 200.00f) {
+            _inputTimer.resetTicksTimer();
+            _mansion->TurnRight();
+        }
+    }
+    if (_gKeys[SDLK_w]) {
+        if (_inputTimer.getTicks() > 100.00f) {
+            _inputTimer.resetTicksTimer();
+            _mansion->MoveForward();
+        }
     }
 }
 
 void SZ_GameWorld::Update() {
-    if (_pause == true) {
-        return;
-    }
+    _mansion->UpdateVision();
 }
 
 void SZ_GameWorld::Render() {
     //Drawing a square for every frame 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
+
+    _mansion->RenderVision();
 
     //Display window
     _window->presentToScreen();
