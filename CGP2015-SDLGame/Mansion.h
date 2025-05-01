@@ -12,7 +12,7 @@ class Mansion
 private:
 	Window* _window;
 
-	//Sprite vectors - make it easier to delete everything
+	//Sprites
 	std::vector<SDL_Texture*> _textureVector;
 	SDL_Texture* _worldBase;
 	SDL_Texture* _worldLeftL3;
