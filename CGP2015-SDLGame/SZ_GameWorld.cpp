@@ -18,7 +18,8 @@ int SZ_GameWorld::Init() {
 
     //Create a window
     _window = new Window(
-        "Mansion Quest - Dylan Hamilton [27599488] - Game Programming", // title
+        //"Mansion Quest - Dylan Hamilton [27599488] - Game Programming", // title
+        "game",
         SDL_WINDOWPOS_CENTERED,                                         // x position
         SDL_WINDOWPOS_CENTERED,                                         // y position
         screenWidth, screenHeight,                                      // width, height
@@ -30,6 +31,9 @@ int SZ_GameWorld::Init() {
 
     //Create a mansion
     _mansion = new Mansion(_window);
+
+    //Create a game timer to show up on screen
+    _timerUI = new TimerUI(_window);
 
     return 0;
 }
@@ -125,6 +129,8 @@ void SZ_GameWorld::Input() {
 
 void SZ_GameWorld::Update() {
     _mansion->UpdateVision();
+    int endGame = _timerUI->UpdateTimer();
+    if (endGame == 1) { _done = true; }
 }
 
 void SZ_GameWorld::Render() {
@@ -135,6 +141,7 @@ void SZ_GameWorld::Render() {
     _window->screenCheck();
 
     _mansion->RenderVision();
+    _timerUI->RenderTimer();
 
     //Display window
     _window->presentToScreen();

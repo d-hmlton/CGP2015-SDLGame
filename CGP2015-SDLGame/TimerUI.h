@@ -20,8 +20,9 @@ private:
 	std::vector<SDL_Texture*> _leftNumbers;
 	std::vector<SDL_Texture*> _rightNumbers;
 
+
 public:
-	TimerUI(Window* window, const float* DELTA_TIME);
+	TimerUI(Window* window);
 
 	void Init();
 

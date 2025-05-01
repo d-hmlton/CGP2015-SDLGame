@@ -1,9 +1,8 @@
 #include "TimerUI.h"
 
 //Constructor
-TimerUI::TimerUI(Window* window, const float* DELTA_TIME) {
+TimerUI::TimerUI(Window* window) {
 	_window = window;
-	_DELTA_TIME = DELTA_TIME;
 	this->Init();
 }
 
@@ -71,5 +70,12 @@ int TimerUI::UpdateTimer() {
 }
 
 void TimerUI::RenderTimer() {
+	_window->renderSprite(_timerBase);
 
+	int seconds = ((_timerLength - _gameTimer.getTicks()) / 1000) + 1;
+	int firstDigit = seconds / 10 % 10;
+	int secondDigit = seconds % 10;
+
+	_window->renderSprite(_leftNumbers[firstDigit]);
+	_window->renderSprite(_rightNumbers[secondDigit]);
 }

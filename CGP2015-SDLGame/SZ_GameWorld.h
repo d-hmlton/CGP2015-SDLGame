@@ -8,6 +8,7 @@
 #include "Window.h"
 #include "SZ_Timer.h"
 #include "Mansion.h"
+#include "TimerUI.h"
 
 #define MAX_KEYS (256)
 
@@ -23,6 +24,7 @@ private:
 
 	Window* _window;
 	Mansion* _mansion;
+	TimerUI* _timerUI;
 	int _shipListSize; //Asking for the size of shipList constantly is inefficient
 
 public:
