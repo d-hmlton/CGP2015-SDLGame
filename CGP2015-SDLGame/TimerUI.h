@@ -31,5 +31,7 @@ public:
 	int UpdateTimer();
 	
 	void RenderTimer();
+
+	SZ_Timer GetTimer() { return _gameTimer; }
 };
 

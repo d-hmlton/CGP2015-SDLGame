@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <SDL.H>
 #include <SDL_image.h>
 
@@ -12,15 +13,15 @@ class Battle
 private:
 	Window* _window;
 	SZ_Timer _battleTimer;
+	int _health;
+	int _damageBuffer;
 
 public:
 	Battle(Window* window);
 
 	//Sprites
 	SDL_Texture* _armourBase;
-	SDL_Texture* _armourA1;
-	SDL_Texture* _armourA2;
-	SDL_Texture* _armourA3;
+	std::vector<SDL_Texture*> _armourAnim;
 
 	SDL_Texture* _popUp;
 	SDL_Texture* _controls;
@@ -30,9 +31,12 @@ public:
 
 	void Init();
 
-	void BattleStart();
+	void StartBattle();
+	int UpdateBattle();
+	int EndBattle();
 
-	void BattleUpdate();
+	void TakeDamage(int damage);
 
+	void RenderBattle();
 };
 

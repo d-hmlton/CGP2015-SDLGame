@@ -9,6 +9,7 @@
 #include "SZ_Timer.h"
 #include "Mansion.h"
 #include "TimerUI.h"
+#include "Battle.h"
 
 #define MAX_KEYS (256)
 
@@ -21,10 +22,12 @@ private:
 	int _frames;
 	bool _done = false;
 	bool _pause = false;
+	int _battleState = 0; //0 = battle to come, 1 = battle ongoing, 2 = battle over
 
 	Window* _window;
 	Mansion* _mansion;
 	TimerUI* _timerUI;
+	Battle* _battle;
 	int _shipListSize; //Asking for the size of shipList constantly is inefficient
 
 public:

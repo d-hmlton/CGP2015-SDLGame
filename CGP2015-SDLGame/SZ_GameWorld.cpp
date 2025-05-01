@@ -35,6 +35,8 @@ int SZ_GameWorld::Init() {
     //Create a game timer to show up on screen
     _timerUI = new TimerUI(_window);
 
+    _battle = new Battle(_window);
+
     return 0;
 }
 
@@ -84,6 +86,14 @@ void SZ_GameWorld::Input() {
                 _gKeys[SDLK_d] = true; break;
             case SDLK_RIGHT:
                 _gKeys[SDLK_d] = true; break;
+
+            case SDLK_s:
+                _gKeys[SDLK_s] = true; break;
+            case SDLK_DOWN:
+                _gKeys[SDLK_s] = true; break;
+
+            case SDLK_SPACE:
+                _gKeys[SDLK_SPACE] = true; break;
             }
         }
 
@@ -99,35 +109,93 @@ void SZ_GameWorld::Input() {
             case SDLK_LEFT:
                 _gKeys[SDLK_a] = false; break;
 
+            case SDLK_s:
+                _gKeys[SDLK_s] = false; break;
+            case SDLK_DOWN:
+                _gKeys[SDLK_s] = false; break;
+
             case SDLK_d:
                 _gKeys[SDLK_d] = false; break;
             case SDLK_RIGHT:
                 _gKeys[SDLK_d] = false; break;
+
+            case SDLK_SPACE:
+                _gKeys[SDLK_SPACE] = false; break;
             }
         }
     }
 
-    if (_gKeys[SDLK_a]) {
-        if (_inputTimer.getTicks() > 200.00f) {
-            _inputTimer.resetTicksTimer();
-            _mansion->TurnLeft();
+    //Movement & Rotation controls
+    if ((_battleState != 1) && (_battleState != 2)) {
+        if (_gKeys[SDLK_a]) {
+            if (_inputTimer.getTicks() > 200.00f) {
+                _inputTimer.resetTicksTimer();
+                _mansion->TurnLeft();
+            }
+        }
+        if (_gKeys[SDLK_d]) {
+            if (_inputTimer.getTicks() > 200.00f) {
+                _inputTimer.resetTicksTimer();
+                _mansion->TurnRight();
+            }
+        }
+        if (_gKeys[SDLK_w]) {
+            if (_inputTimer.getTicks() > 100.00f) {
+                _inputTimer.resetTicksTimer();
+                _mansion->MoveForward();
+            }
         }
     }
-    if (_gKeys[SDLK_d]) {
-        if (_inputTimer.getTicks() > 200.00f) {
-            _inputTimer.resetTicksTimer();
-            _mansion->TurnRight();
+
+    //Battle controls
+    if (_battleState == 1) {
+        if (_gKeys[SDLK_SPACE]) {
+            if (_inputTimer.getTicks() > 200.00f) {
+                _inputTimer.resetTicksTimer();
+                _battle->TakeDamage(1);
+            }
         }
-    }
-    if (_gKeys[SDLK_w]) {
-        if (_inputTimer.getTicks() > 100.00f) {
-            _inputTimer.resetTicksTimer();
-            _mansion->MoveForward();
+        if (_gKeys[SDLK_w]) {
+            if (_inputTimer.getTicks() > 100.00f) {
+                _inputTimer.resetTicksTimer();
+                _battle->TakeDamage(1);
+            }
+        }
+        if (_gKeys[SDLK_a]) {
+            if (_inputTimer.getTicks() > 100.00f) {
+                _inputTimer.resetTicksTimer();
+                _battle->TakeDamage(1);
+            }
+        }
+        if (_gKeys[SDLK_s]) {
+            if (_inputTimer.getTicks() > 100.00f) {
+                _inputTimer.resetTicksTimer();
+                _battle->TakeDamage(1);
+            }
+        }
+        if (_gKeys[SDLK_d]) {
+            if (_inputTimer.getTicks() > 100.00f) {
+                _inputTimer.resetTicksTimer();
+                _battle->TakeDamage(1);
+            }
         }
     }
 }
 
 void SZ_GameWorld::Update() {
+    //Battle!
+    if ((_timerUI->GetTimer().getTicks() > 10000.00f) && (_battleState == 0)) {
+        _battleState = 1;
+        _battle->StartBattle();
+    }
+    int endBattle = 0;
+    if (_battleState == 1) { endBattle = _battle->UpdateBattle(); }
+    if (endBattle == 1) { _battleState = 2; _timerUI->BonusTime(); }
+
+    endBattle = 0;
+    if (_battleState == 2) { endBattle = _battle->EndBattle(); }
+    if (endBattle == 1) { _battleState = 3; }
+
     _mansion->UpdateVision();
     int endGame = _timerUI->UpdateTimer();
     if (endGame == 1) { _done = true; }
@@ -141,6 +209,7 @@ void SZ_GameWorld::Render() {
     _window->screenCheck();
 
     _mansion->RenderVision();
+    if ((_battleState == 1) || (_battleState == 2)) { _battle->RenderBattle(); }
     _timerUI->RenderTimer();
 
     //Display window
