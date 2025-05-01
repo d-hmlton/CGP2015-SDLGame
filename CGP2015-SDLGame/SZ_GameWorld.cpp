@@ -131,6 +131,9 @@ void SZ_GameWorld::Render() {
     //Drawing a square for every frame 
     _window->setColour(0, 0, 0, 255); _window->clearScreen();
 
+    //Checks current screen size and sets render params accordingly - necessary for everything after
+    _window->screenCheck();
+
     _mansion->RenderVision();
 
     //Display window

@@ -69,3 +69,7 @@ int TimerUI::UpdateTimer() {
 	}
 	return 0;
 }
+
+void TimerUI::RenderTimer() {
+
+}

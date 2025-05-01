@@ -1,11 +1,16 @@
 #pragma once
 #include "SDL.H" //sdl2
+#include <string>
 
 class Window {
 private:
     int _width; int _height;
     SDL_Window* _window;
     SDL_Renderer* _renderer;
+
+    int _screenMult;
+    SDL_Rect _srcWorld;
+    SDL_Rect _dstWorld;
 
 public:
     //Constructor
@@ -14,8 +19,11 @@ public:
     //Method to set the state of SDL's colour
     void setColour(int red, int green, int blue, int alpha);
 
+    //Checks if screen multipliers need updating
+    void screenCheck();
+
     //Renders an SDL_Texture presented
-    void renderSprite(SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect);
+    void renderSprite(SDL_Texture* texture);
 
     //Method to clear the screen in memory
     void clearScreen();

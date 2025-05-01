@@ -51,11 +51,6 @@ int Mansion::Init() {
 
 	IMG_Quit();
 
-	//Define default render settings
-	_screenMult = 2; //Default expects 800x600 screen
-	_srcWorld = { 0, 0, 400, 300 };
-	_dstWorld = { 0, 0, 800, 600 };
-
 	Print();
 	return 0;
 }
@@ -187,25 +182,7 @@ int Mansion::UpdateVision() {
 }
 
 int Mansion::RenderVision() {
-	int presentHeight = _window->getHeight();
-	int presentWidth = _window->getWidth();
-
-	int presentMult = 1;
-	if (presentHeight / 300 <= presentWidth / 400) { presentMult = presentHeight / 300; }
-	else { presentMult = presentWidth / 400; }
-
-	if (presentMult <= 0) {
-		printf("NOTE: This game only renders properly on screens / in windows larger than 400x300.");
-		presentMult = 1;
-	}
-
-	//The 0,0 points relative to game screen size
-	int relativeZeroX = (presentWidth / 2) - (200 * presentMult); //x at centre, minus half of the ratio width, to reach leftmost point
-	int relativeZeroY = (presentHeight / 2) - (150 * presentMult); //x at centre, minus half of the ratio height, to reach topmost point
-
-	_dstWorld = { relativeZeroX, relativeZeroY, 400 * presentMult, 300 * presentMult };
-
-	_window->renderSprite(_textureVector[0], _srcWorld, _dstWorld); //Render base sprite
+	_window->renderSprite(_textureVector[0]); //Render base sprite
 
 	//Vision render - loops through the 12 wall sprites, indexed to allow this to work
 	int sprite = 1; int row = 3;
@@ -213,7 +190,7 @@ int Mansion::RenderVision() {
 	while (row > -1) {
 		for (int i = 0; i < 3; i++) {
 			if (_pVision[row][colLoop[i]] == 1) {
-				_window->renderSprite(_textureVector[sprite], _srcWorld, _dstWorld);
+				_window->renderSprite(_textureVector[sprite]);
 			}
 			sprite++;
 		}

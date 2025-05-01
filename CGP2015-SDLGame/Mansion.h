@@ -28,10 +28,6 @@ private:
 	SDL_Texture* _worldError;
 	SDL_Texture* _worldRightL0;
 
-	int _screenMult;
-	SDL_Rect _srcWorld;
-	SDL_Rect _dstWorld;
-
 	//Mansion map matrix
 	std::vector<std::vector<int>> _mansionGrid = {
 		{ 2, 0, 0, 0, 0 },

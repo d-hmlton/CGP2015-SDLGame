@@ -9,6 +9,9 @@ Window::Window(const char* title, int x, int y, int width, int height, Uint32 fl
 
     //Renderer initialiser
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+
+    //Default val
+    _srcWorld = { 0, 0, 400, 300 };
 }
 
 //Method to set the state of SDL's colour
@@ -16,8 +19,25 @@ void Window::setColour(int red, int green, int blue, int alpha) {
     SDL_SetRenderDrawColor(_renderer, red, green, blue, alpha);
 }
 
-void Window::renderSprite(SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect) {
-    SDL_RenderCopy(_renderer, texture, &srcRect, &dstRect);
+void Window::screenCheck() {
+    int presentMult = 1;
+    if (_height / 300 <= _width / 400) { presentMult = _height / 300; }
+    else { presentMult = _width / 400; }
+
+    if (presentMult <= 0) {
+        printf("NOTE: This game only renders properly on screens / in windows larger than 400x300.");
+        presentMult = 1;
+    }
+
+    //The 0,0 points relative to game screen size
+    int relativeZeroX = (_width / 2) - (200 * presentMult); //x at centre, minus half of the ratio width, to reach leftmost point
+    int relativeZeroY = (_height / 2) - (150 * presentMult); //x at centre, minus half of the ratio height, to reach topmost point
+
+    _dstWorld = { relativeZeroX, relativeZeroY, 400 * presentMult, 300 * presentMult };
+}
+
+void Window::renderSprite(SDL_Texture* texture) {
+    SDL_RenderCopy(_renderer, texture, &_srcWorld, &_dstWorld);
 }
 
 //Method to clear the screen in memory
